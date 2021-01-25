@@ -1,0 +1,30 @@
+﻿@model ConsultaMapa;
+@{
+    ViewData["Title"] = "Mapas";
+    Layout = "_MapLayout";
+}
+
+<partial name="_FiltroMapa" />
+<partial name="_StatusPeriodo" />
+<partial name="_FiltroPeriodo" />
+<partial name="_Informacoes" />
+
+@section Scripts
+{
+    <script type='text/javascript'>
+        let posicoesJson = '@Html.Raw(Json.Serialize(Model.Posicoes))';
+        let latitude = '@ViewBag.latitude';
+        let longitude = '@ViewBag.longitude';
+        let dataInicial = '@Model.DataInicial';
+        let dataFinal = '@Model.DataFinal';
+    </script>
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            $("#informacoesModal").modal('show');
+        });
+    </script>
+    <script type='text/javascript' src='~/js/filtrarmapa.js'></script>
+    <script type='text/javascript' src='~/js/map.js'></script>
+    <script type='text/javascript' src='~/js/heatmap.js'></script>
+    <script type='text/javascript' src='~/js/clustermap.js'></script>
+}

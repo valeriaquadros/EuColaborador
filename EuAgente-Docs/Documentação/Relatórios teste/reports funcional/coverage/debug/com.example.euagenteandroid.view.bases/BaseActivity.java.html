@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseActivity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">com.example.euagenteandroid.view.bases</a> &gt; <span class="el_source">BaseActivity.java</span></div><h1>BaseActivity.java</h1><pre class="source lang-java linenums">package com.example.euagenteandroid.view.bases;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.euagenteandroid.MainActivity;
+import com.example.euagenteandroid.R;
+import com.example.euagenteandroid.model.DaoFacade;
+import com.example.euagenteandroid.view.ChecklistEnderecoView;
+import com.example.euagenteandroid.view.DenunciaLocalView;
+import com.example.euagenteandroid.view.EnfermoView;
+import com.example.euagenteandroid.view.InformacoesView;
+import com.example.euagenteandroid.view.LoginView;
+import com.example.euagenteandroid.view.PerfilView;
+import com.example.euagenteandroid.view.PrevencoesView;
+import com.example.euagenteandroid.view.MapaView;
+import com.example.euagenteandroid.view.SucessoView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.LinkedList;
+
+import co.mobiwise.materialintro.shape.Focus;
+import co.mobiwise.materialintro.shape.FocusGravity;
+import co.mobiwise.materialintro.shape.ShapeType;
+import co.mobiwise.materialintro.view.MaterialIntroView;
+
+<span class="fc" id="L36">public class BaseActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {</span>
+
+<span class="fc" id="L38">    private DaoFacade daoFacade = DaoFacade.getInstance(this);</span>
+<span class="fc" id="L39">    private LinkedList&lt;LinkedList&lt;Object&gt;&gt; listTutorial = new LinkedList&lt;&gt;();</span>
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+<span class="fc" id="L43">        super.onCreate(savedInstanceState);</span>
+<span class="fc" id="L44">        addBarTop();</span>
+<span class="fc" id="L45">        addBarBottom();</span>
+<span class="fc" id="L46">    }</span>
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+<span class="fc" id="L50">        getMenuInflater().inflate(R.menu.options_top, menu);</span>
+<span class="fc" id="L51">        return super.onCreateOptionsMenu(menu);</span>
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+<span class="fc bfc" id="L56" title="All 6 branches covered.">        switch (item.getItemId()) {</span>
+            case R.id.item_residence_verification:
+<span class="fc" id="L58">                goToAuth(ChecklistEnderecoView.class);</span>
+<span class="fc" id="L59">                return true;</span>
+            case R.id.item_option_sick_person:
+<span class="fc" id="L61">                goToAuth(EnfermoView.class);</span>
+<span class="fc" id="L62">                return true;</span>
+            case R.id.item_option_complaint:
+<span class="fc" id="L64">                goToAuth(DenunciaLocalView.class);</span>
+<span class="fc" id="L65">                return true;</span>
+            case R.id.item_option_edit_perfil:
+<span class="fc" id="L67">                goToAuth(PerfilView.class);</span>
+<span class="fc" id="L68">                return true;</span>
+            case R.id.item_option_logout:
+<span class="fc" id="L70">                getDaoFacade().getUserDAO().logout();</span>
+<span class="fc" id="L71">                goTo(MainActivity.class);</span>
+<span class="fc" id="L72">                return true;</span>
+            default:
+<span class="fc" id="L74">                return super.onOptionsItemSelected(item);</span>
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+<span class="pc bpc" id="L80" title="2 of 5 branches missed.">        switch (item.getItemId()) {</span>
+            case R.id.navigation_home:
+<span class="fc" id="L82">                goTo(MainActivity.class);</span>
+<span class="fc" id="L83">                break;</span>
+            case R.id.navigation_infos:
+<span class="fc" id="L85">                goTo(InformacoesView.class);</span>
+<span class="fc" id="L86">                break;</span>
+            case R.id.navigation_prevencao:
+<span class="fc" id="L88">                goTo(PrevencoesView.class);</span>
+<span class="fc" id="L89">                break;</span>
+            case R.id.navigation_map:
+<span class="nc" id="L91">                goTo(MapaView.class);</span>
+<span class="nc" id="L92">                break;</span>
+            default:
+                break;
+        }
+<span class="fc" id="L96">        return true;</span>
+    }
+
+    protected void goTo(Class desiredDestination) {
+<span class="fc" id="L100">        String actualClassName = this.getClass().getSimpleName();</span>
+<span class="fc" id="L101">        String desiredClassName = desiredDestination.getSimpleName();</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if (!actualClassName.equalsIgnoreCase(desiredClassName)) {</span>
+<span class="fc" id="L103">            Intent intent = getIntent(desiredDestination, desiredClassName);</span>
+<span class="fc" id="L104">            startActivity(intent);</span>
+<span class="fc" id="L105">            removesActivityTransition();</span>
+        }
+<span class="fc" id="L107">    }</span>
+
+    private Intent getIntent(Class desiredDestination, String desiredClassName) {
+<span class="fc" id="L110">        Intent intent = new Intent(this, desiredDestination);</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        if (desiredClassName.equalsIgnoreCase(&quot;mainactivity&quot;))</span>
+<span class="fc" id="L112">            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);</span>
+<span class="fc" id="L113">        return intent;</span>
+    }
+
+    protected void goToAuth(Class destiny) {
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        if (!getDaoFacade().getUserDAO().isLogged()) {</span>
+<span class="fc" id="L118">            Toast.makeText(this, R.string.toast_needed_login, Toast.LENGTH_SHORT).show();</span>
+<span class="fc" id="L119">            Intent intent = new Intent(this, LoginView.class);</span>
+<span class="fc" id="L120">            intent.putExtra(&quot;EXTRA_NEXT_ACTIVITY_CLASS&quot;, destiny);</span>
+<span class="fc" id="L121">            startActivity(intent);</span>
+<span class="fc" id="L122">            removesActivityTransition();</span>
+<span class="fc" id="L123">        } else {</span>
+<span class="nc" id="L124">            goTo(destiny);</span>
+        }
+<span class="fc" id="L126">    }</span>
+
+    protected void goToNextActivity() {
+<span class="fc" id="L129">        Class nextActivityClass = (Class&lt;Activity&gt;) getIntent().getSerializableExtra(&quot;EXTRA_NEXT_ACTIVITY_CLASS&quot;);</span>
+<span class="fc" id="L130">        Intent intent = new Intent(this, nextActivityClass);</span>
+<span class="fc" id="L131">        startActivity(intent);</span>
+<span class="fc" id="L132">    }</span>
+
+    private void removesActivityTransition() {
+<span class="fc" id="L135">        overridePendingTransition(0, 0);</span>
+<span class="fc" id="L136">    }</span>
+
+    public void addBarTop() {
+<span class="fc" id="L139">        setSupportActionBar(findViewById(R.id.toolbar));</span>
+<span class="fc" id="L140">        getSupportActionBar().setDisplayUseLogoEnabled(true);</span>
+<span class="fc" id="L141">        getSupportActionBar().setLogo(R.drawable.ic_mosquito);</span>
+<span class="fc" id="L142">    }</span>
+
+    public void addBarBottom() {
+<span class="fc" id="L145">        ((BottomNavigationView) findViewById(R.id.bottomNavigationView)).setOnNavigationItemSelectedListener(this);</span>
+<span class="fc" id="L146">    }</span>
+
+    public DaoFacade getDaoFacade() {
+<span class="fc" id="L149">        return daoFacade;</span>
+    }
+
+    protected void showSucesso(Context context, int titulo){
+<span class="fc" id="L153">        startActivity(new Intent(context, SucessoView.class)</span>
+<span class="fc" id="L154">            .putExtra(&quot;titulo&quot;, titulo));</span>
+<span class="fc" id="L155">    }</span>
+
+    protected void showSucessoComSub(Context context, int titulo, int subtitulo){
+<span class="nc" id="L158">        startActivity(new Intent(context, SucessoView.class)</span>
+<span class="nc" id="L159">            .putExtra(&quot;titulo&quot;, titulo)</span>
+<span class="nc" id="L160">            .putExtra(&quot;subtitulo&quot;, subtitulo));</span>
+<span class="nc" id="L161">    }</span>
+
+    protected void addItemTutorial(int view, int text, String idTutorial) {
+<span class="fc" id="L164">        LinkedList&lt;Object&gt; item = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L165">        item.add(findViewById(view));</span>
+<span class="fc" id="L166">        item.add(getResources().getText(text));</span>
+<span class="fc" id="L167">        item.add(idTutorial);</span>
+<span class="fc" id="L168">        listTutorial.add(item);</span>
+<span class="fc" id="L169">    }</span>
+
+    protected void showTutorial() {
+<span class="fc" id="L172">        LinkedList&lt;Object&gt; item = listTutorial.remove();</span>
+<span class="fc" id="L173">        startTutorial((View)item.get(0), (String) item.get(1), (String) item.get(2));</span>
+<span class="fc" id="L174">    }</span>
+
+    private void startTutorial(View view, String text, String idTutorial) {
+<span class="fc" id="L177">        new MaterialIntroView.Builder(this)</span>
+<span class="fc" id="L178">                .setFocusGravity(FocusGravity.CENTER)</span>
+<span class="fc" id="L179">                .setFocusType(Focus.MINIMUM)</span>
+<span class="fc" id="L180">                .setDelayMillis(500)</span>
+<span class="fc" id="L181">                .enableDotAnimation(true)</span>
+<span class="fc" id="L182">                .enableIcon(false)</span>
+<span class="fc" id="L183">                .enableFadeAnimation(true)</span>
+<span class="fc" id="L184">                .setInfoText(text)</span>
+<span class="fc" id="L185">                .setShape(ShapeType.RECTANGLE)</span>
+<span class="fc" id="L186">                .setTarget(view)</span>
+<span class="fc" id="L187">                .setUsageId(idTutorial)</span>
+<span class="fc" id="L188">                .setTargetPadding(8)</span>
+<span class="fc" id="L189">                .enableDotAnimation(true)</span>
+<span class="fc" id="L190">                .performClick(false)</span>
+<span class="fc" id="L191">                .setListener(materialIntroViewId -&gt; {</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">                    if(listTutorial.size() &gt; 0) {</span>
+<span class="nc" id="L193">                        LinkedList&lt;Object&gt; item = listTutorial.remove();</span>
+<span class="nc" id="L194">                        startTutorial((View)item.get(0), (String) item.get(1), (String) item.get(2));</span>
+                    }
+<span class="nc" id="L196">                })</span>
+<span class="fc" id="L197">                .show();</span>
+<span class="fc" id="L198">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>Generated by the Android Gradle plugin 3.6.1</div></body></html>

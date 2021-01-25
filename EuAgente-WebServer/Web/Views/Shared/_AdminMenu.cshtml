@@ -1,0 +1,16 @@
+﻿@if (User.Identity.IsAuthenticated && User.IsInRole(CrossCutting.Constants.Perfis.Administrador))
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Relatórios
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" asp-area="" asp-controller="Relatorio" asp-action="ChecklistEndereco" onclick="ToastDownloadRelatorio()">Checklist de residências</a>
+            <a class="dropdown-item" asp-area="" asp-controller="Relatorio" asp-action="DenunciaFoco" onclick="ToastDownloadRelatorio()">Denúncias de foco</a>
+            <a class="dropdown-item" asp-area="" asp-controller="Relatorio" asp-action="Enfermo" onclick="ToastDownloadRelatorio()">Enfermos</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-controller="Usuario" asp-action="CadastrarUsuario">Cadastrar Admin</a>
+    </li>
+}

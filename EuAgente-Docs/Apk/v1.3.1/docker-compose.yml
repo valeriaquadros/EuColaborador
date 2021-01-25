@@ -1,0 +1,45 @@
+version: '3.4'
+
+services:
+  euagente-api:
+    container_name: euagente-api
+    image: hueligton/eu-agente:61
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+      - BINGAPIKEY=AqO7YKDLNB1eM3sPSCLRSESMTgcgRews5TpROcyYU9_VGtBDQd0tShArh5Q9lTjE
+      - CONNECTIONSTRING=Host=postgres;Port=5432;Database=euagentedb;Username=euagente;Password=euagente
+    ports:
+      - "60633:80"
+    depends_on:
+      - postgres
+
+  euagente-web:
+    container_name: euagente-web
+    image: hueligton/eu-agente-web:61
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+      - APIURL=http://192.168.25.72:60633
+      - BINGAPIKEY=AqO7YKDLNB1eM3sPSCLRSESMTgcgRews5TpROcyYU9_VGtBDQd0tShArh5Q9lTjE
+    ports:
+      - "32772:80"
+    depends_on:
+      - euagente-api
+
+  postgres:
+    image: postgres:12.2
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: euagentedb
+      POSTGRES_USER: euagente
+      POSTGRES_PASSWORD: euagente
+      PGDATA: /var/lib/postgresql/data
+    ports:
+      - "15432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes: 
+  pgdata:

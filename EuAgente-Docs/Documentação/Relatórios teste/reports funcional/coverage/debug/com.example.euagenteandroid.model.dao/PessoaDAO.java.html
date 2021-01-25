@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PessoaDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">com.example.euagenteandroid.model.dao</a> &gt; <span class="el_source">PessoaDAO.java</span></div><h1>PessoaDAO.java</h1><pre class="source lang-java linenums">package com.example.euagenteandroid.model.dao;
+
+import android.content.Context;
+
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
+import com.example.euagenteandroid.model.entity.Pessoa;
+import com.example.euagenteandroid.model.util.Constants;
+import com.example.euagenteandroid.model.util.ServerCallback;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+public class PessoaDAO extends Dao{
+
+    public PessoaDAO(Context context) {
+<span class="fc" id="L18">        super(context, Pessoa.class, &quot;/Pessoa/&quot;);</span>
+<span class="fc" id="L19">    }</span>
+
+    /**
+     * Método utilizado criar objeto no banco. Retorno via serverCallBack.
+     * Retorna objeto caso sucesso
+     * Retorna nulo caso falha
+     * @param nome nome
+     * @param cpf cpf
+     * @param dataNascimento data nascimento
+     * @param sexo sexo
+     * @param serverCallback interface para retorno da chamada HTTP. Retorna Object via CallBack. Necessário cast.
+     */
+    public void create(String nome, String cpf, Date dataNascimento, char sexo, ServerCallback serverCallback) {
+<span class="fc" id="L32">        HashMap&lt;String, Object&gt; params = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L33">        params.put(&quot;nome&quot;, nome);</span>
+<span class="fc" id="L34">        params.put(&quot;cpf&quot;, cpf);</span>
+<span class="fc" id="L35">        params.put(&quot;dataNascimento&quot;, sdf.format(dataNascimento));</span>
+<span class="fc" id="L36">        params.put(&quot;sexo&quot;, sexo);</span>
+
+<span class="fc" id="L38">        super.create(params, serverCallback);</span>
+<span class="fc" id="L39">    }</span>
+
+    /**
+     * Método utilizado criar objeto no banco. Retorno via serverCallBack.
+     * Retorna objeto caso sucesso
+     * Retorna nulo caso falha
+     * @param id id
+     * @param nome nome
+     * @param cpf cpf
+     * @param dataNascimento data nascimento
+     * @param sexo sexo
+     * @param serverCallback interface para retorno da chamada HTTP. Retorna Object via CallBack. Necessário cast.
+     */
+    public void update(int id, String nome, String cpf, Date dataNascimento, char sexo, ServerCallback serverCallback) {
+<span class="nc" id="L53">        HashMap&lt;String, Object&gt; params = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L54">        params.put(&quot;nome&quot;, nome);</span>
+<span class="nc" id="L55">        params.put(&quot;cpf&quot;, cpf);</span>
+<span class="nc" id="L56">        params.put(&quot;dataNascimento&quot;, sdf.format(dataNascimento));</span>
+<span class="nc" id="L57">        params.put(&quot;sexo&quot;, sexo);</span>
+
+<span class="nc" id="L59">        super.update(id, params, serverCallback);</span>
+<span class="nc" id="L60">    }</span>
+
+    /**
+     * Retorna objeto cadastrado através de serverCallBack
+     * Retorna lista caso sucesso
+     * Retorna falha caso falha
+     *
+     * @param serverCallback interface para retorno da chamada HTTP. Retorna Object via CallBack. Necessário cast.
+     */
+    public void getPessoaByCpf(String cpf, ServerCallback serverCallback) {
+<span class="fc" id="L70">        String endPoint = Constants.apiurl + controller + &quot;cpf/&quot; + cpf;</span>
+<span class="fc" id="L71">        StringRequest stringRequest = new StringRequest(Request.Method.GET,</span>
+                endPoint,
+                response -&gt; {
+<span class="fc" id="L74">                    Object object = gson.fromJson(response, requestClass);</span>
+<span class="fc" id="L75">                    serverCallback.onResponse(true, object);</span>
+<span class="fc" id="L76">                },</span>
+<span class="fc" id="L77">                error -&gt; serverCallback.onResponse(false, null)) {</span>
+            @Override
+            public Map&lt;String, String&gt; getHeaders() {
+<span class="fc" id="L80">                return UserDAO.getHeaderToken();</span>
+            }
+        };
+
+<span class="fc" id="L84">        Repository.getInstance(context).addToRequestQueue(stringRequest);</span>
+<span class="fc" id="L85">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>Generated by the Android Gradle plugin 3.6.1</div></body></html>

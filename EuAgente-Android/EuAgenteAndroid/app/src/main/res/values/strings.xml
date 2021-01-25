@@ -1,0 +1,155 @@
+<resources>
+    <string name="app_name">Eu, Agente!</string>
+
+    <string name="navigation_menu">Início</string>
+    <string name="navigation_infos">Informações</string>
+    <string name="navigation_prevencao">Prevençāo</string>
+    <string name="navigation_maps">Mapa</string>
+
+    <string name="welcome_title">"Bem-vindo(a) ao Eu, Agente!"</string>
+    <string name="welcome_text">Um aplicativo para a colaboração popular na identificação de locais de risco de transmissão da dengue e demais doenças associadas ao mosquito Aedes Aegypt.</string>
+
+    <string name="menu_option_title">Menu</string>
+    <string name="menu_option_residence_verification">"Fazer verificaçāo de residência"</string>
+    <string name="menu_option_sick_person">"Cadastrar pessoa doente</string>
+    <string name="menu_option_complaint">"Realizar denuncia de possivel foco"</string>
+    <string name="menu_option_edit_perfil">"Editar perfil pessoal</string>
+    <string name="menu_option_logout">Sair</string>
+    <string name="toast_logout">"Logout realizado com sucesso"</string>
+
+    <string name="login_title">Login</string>
+    <string name="login_subtitle">Se você já possui cadastro é só inserir os dados abaixo</string>
+    <string name="login_field_login">Digite seu CPF</string>
+    <string name="login_field_password">Digite sua senha</string>
+    <string name="login_click_forgot_password"><u>Esqueci minha senha</u></string>
+    <string name="login_text_without_account">Nāo possui conta?</string>
+    <string name="login_click_go_to_register"><u>Cadastre-se aqui!</u></string>
+    <string name="login_button">ENTRAR</string>
+    <string name="toast_login_incorrect">Login e/ou Senha incorretos</string>
+    <string name="toast_login_empty">Campos obrigatórios não preenchidos</string>
+
+    <string name="register_title">Cadastro</string>
+    <string name="register_subtitle">Para ter acesso nesse aplicativo é necessário cadastro com os campos abaixo</string>
+    <string name="register_text_name">Nome completo</string>
+    <string name="register_text_cpf">CPF</string>
+    <string name="register_text_email">Email</string>
+    <string name="register_text_birth_date">Data de nascimento (XX/XX/XXXX)</string>
+    <string name="register_text_sex">Sexo</string>
+    <string name="register_text_password_1">Senha</string>
+    <string name="register_text_password_2">Digite sua senha novamente</string>
+    <string name="register_button">CADASTRAR</string>
+    <string name="toast_register_successful">Cadastro realizado com sucesso</string>
+    <string name="toast_register_error_passwords">As senhas não são compatíveis</string>
+    <string name="toast_invalid_date">Data informada é inválida</string>
+    <string name="toast_failed">Falha ao cadastrar</string>
+
+    <string name="recuperarsenha_title">Recuperar Senha</string>
+    <string name="recuperarsenha_subtitle">Insira o e-mail utilizado no cadastrado de seu usuário. Você receberá um e-mail com instruções para recuperação</string>
+    <string name="recuperarsenha_button">ENVIAR</string>
+    <string name="recuperarsenha_complete">E-mail enviado com sucesso</string>
+    <string name="recuperarsenha_toast_failed">Falha ao enviar</string>
+
+    <string name="toast_needed_login">"Você precisa estar logado"</string>
+
+    <string name="pessoa_title">Cadastrar Morador</string>
+    <string name="pessoa_field_nome">Nome</string>
+    <string name="pessoa_field_cpf">CPF</string>
+    <string name="pessoa_field_dataNascimento">Data de nascimento (XX/XX/XXXX)</string>
+    <string name="pessoa_field_sexo">Sexo</string>
+    <string name="pessoa_field_m">Masculino</string>
+    <string name="pessoa_field_f">Feminino</string>
+    <string name="pessoa_button">CADASTRAR</string>
+
+    <string name="sickperson_title">Cadastrar Pessoa Doente</string>
+    <string name="sickperson_field_gestante">É gestante</string>
+    <string name="sickperson_enderecoButton">Cadastrar Endereço</string>
+    <string name="sickperson_pessoaButton">Cadastrar Pessoa</string>
+    <string name="sickperson_address">Logradouro</string>
+    <string name="enfermo_tutorial_cpf">Insira aqui o CPF da pessoa que está doente. O uso do CPF visa garantir que se trata de uma pessoa real, sendo mantida toda a privacidade dos dados informados.</string>
+    <string name="enfermo_tutorial_endereco">Para melhor mapeamento da doença, você poderá cadastrar 2 endereços, um de sua residência e um para o local de trabalho da pessoa que está doente.</string>
+
+    <string name="titulo_cadastrarendereco">Cadastrar Endereço</string>
+    <string name="campo_estado">Estado</string>
+    <string name="campo_cidade">Cidade</string>
+    <string name="campo_bairro">Bairro</string>
+    <string name="campo_cep">Cep</string>
+    <string name="campo_logradouro">Logradouro <i>(Rua/Avenida/Travessa)</i> </string>
+    <string name="campo_numero">Numero</string>
+
+    <string name="toast_unavailable_service">Serviço indisponível no momento</string>
+    <string name="toast_field_not_selected">Nenhum campo foi selecionado</string>
+    <string name="cadastro_completo">Cadastro concluído com sucesso</string>
+
+    <string name="cpfinvalido">CPF inválido</string>
+    <string name="checklist_residencia">Checklist Residencia</string>
+    <string name="checklist_sucesso_titulo">Lista salva com sucesso</string>
+    <string name="salvar">SALVAR</string>
+
+    <string name="denuncia_local_title">Denúncia de possível foco</string>
+    <string name="denuncia_local_subtitle">Esse espaço é reservado para realizar denúncia de um possível foco que você localizou mas antes precisamos de algumas informações que estāo abaixo:</string>
+    <string name="denuncia_local_btn_endereco">Digitar endereço</string>
+    <string name="denuncia_local_btn_gps">Buscar endereço por GPS</string>
+    <string name="denuncia_local_tv_endereco">Endereço:</string>
+    <string name="denuncia_local_btn_editar_endereco">Editar endereço</string>
+    <string name="denuncia_local_btn">Salvar Denúncia</string>
+    <string name="denuncia_local_sucesso_titulo">Denúncia realizada com sucesso</string>
+    <string name="toast_sem_conexao">Nāo é possivel pesquisar por GPS sem conexāo com a internet</string>
+
+    <string name="prevencao_title">Prevenções</string>
+    <string name="prevencao_list_1">"Mantenha a caixa d'água sempre fechada com tampa adequada.</string>
+    <string name="prevencao_list_2">"Remova folhas, galhos e tudo que possa impedir a água de correr pelas calhas."</string>
+    <string name="prevencao_list_3">Não deixe a água da chuva acumulada.</string>
+    <string name="prevencao_list_4">Lave semanalmente por dentro com escovas e sabão os tanques utilizados para armazenar água.</string>
+    <string name="prevencao_list_5">"Mantenha bem tampados tonéis e barris d'água."</string>
+    <string name="prevencao_list_6">"Encha de areia até a borda os pratinhos dos vasos de planta."</string>
+    <string name="prevencao_list_7">"Se você tiver vasos de plantas aquáticas, troque a água e lave o vaso principalmente por dentro pelo menos uma vez por semana."</string>
+    <string name="prevencao_list_8">Guarde garrafas sempre de cabeça para baixo.</string>
+    <string name="prevencao_list_9">Entregue pneus velhos à limpeza ou mantenha em local fechado.</string>
+    <string name="prevencao_list_10">Coloque lixo em sacos plásticos e mantenha a lixeira fechada.</string>
+
+    <string name="tutorial_home">"Bem vindo ao Eu, Agente! Aqui você encontrará maneiras de ser ativo no combate a dengue na sua região.</string>
+    <string name="tutorial_informacoes">"Informações sobre os sintomas causados pela dengue."</string>
+    <string name="tutorial_prevencao">"Como você pode evitar a proliferação do mosquito."</string>
+    <string name="tutorial_mapa">"Mapa com informações de locais com foco de dengue."</string>
+    <string name="tutorial_menu">Menu com opções para que você possa nos informar sobre a situaçāo da dengue na sua regiāo."</string>
+
+    <string name="informacoes_titulo">"Informações importantes"</string>
+    <string name="informacoes_subtitulo">"Para ajudar a reconhecer a dengue, listamos abaixo os sintomas mais comuns:"</string>
+    <string name="informacoes_febre">"<b>Febre:</b> Acima de 38,5°C com duraçāo de 4 a 7 dias."</string>
+    <string name="informacoes_manchas">"<b>Manchas na pele:</b> A partir do 4° dia em até 50% dos casos."</string>
+    <string name="informacoes_dor">"<b>Dor nos músculos:</b> É intensa."</string>
+    <string name="informacoes_intensidade">"<b>Intensidade das dores na articulações:</b> Leve"</string>
+    <string name="informacoes_inchaco">"<b>Inchaço das articulações:</b> Raro."</string>
+    <string name="informacoes_conjuntivite">"<b>Conjuntivite:</b> Rara."</string>
+    <string name="informacoes_sangramentos">"<b>Sangramentos:</b> Moderados."</string>
+    <string name="informacoes_rodape">"Caso os sintomas se agravem, procurar a Unidade Básica de Saúde (UBS) mais próxima ou uma Unidade de Pronto Atendimento (UPA)."</string>
+
+    <string name="perfil_titulo">Meu Perfil</string>
+    <string name="perfil_nome">Nome:</string>
+    <string name="perfil_cpf">Cpf:</string>
+    <string name="perfil_data_nascimento">Data de Nascimento:</string>
+    <string name="perfil_sexo">Sexo:</string>
+    <string name="perfil_email">Email:</string>
+    <string name="perfil_reenviar_email">Reenviar email de confirmaçāo</string>
+    <string name="perfil_reenviar_email_sucesso">Um novo email foi enviado para confirmação</string>
+    <string name="perfil_editar">Editar Perfil</string>
+    <string name="perfil_alterar_email">Alterar Email</string>
+    <string name="perfil_excluir">Excluir Perfil</string>
+    <string name="perfil_sucesso">Salvo com sucesso</string>
+
+    <string name="alterar_email_titulo">Alterar Email</string>
+    <string name="alterar_email_et">Novo Email</string>
+    <string name="alterar_email_sucesso_titulo">Solicitação enviada</string>
+    <string name="alterar_email_sucesso_subtitulo">Você recebera um email para confirmar a alteração</string>
+
+    <string name="alterar_senha_title">Alterar senha</string>
+    <string name="alterar_senha_antiga">Senha antiga</string>
+    <string name="alterar_senha_nova">Nova senha</string>
+    <string name="alterar_senha_nova_confirmacao">Confirme a nova senha</string>
+    <string name="alterar_senha_sucesso_titulo">Senha alterada com sucesso</string>
+
+    <string name="excluir_title">Excluir Usuário</string>
+    <string name="excluir_subtitulo_1">Tem certeza que deseja excluir sua conta? Depois de excluir você não poderá voltar atrás!</string>
+    <string name="excluir_btn">Sim, quero excluir</string>
+    <string name="excluir_sucesso">Sua conta foi excluida com sucesso</string>
+</resources>

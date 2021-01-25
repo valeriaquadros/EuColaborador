@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomAdapter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">com.example.euagenteandroid.model.util</a> &gt; <span class="el_source">CustomAdapter.java</span></div><h1>CustomAdapter.java</h1><pre class="source lang-java linenums">package com.example.euagenteandroid.model.util;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+
+import com.example.euagenteandroid.R;
+import com.example.euagenteandroid.model.entity.TipoFoco;
+
+import java.util.List;
+
+public class CustomAdapter  extends BaseAdapter {
+
+    private Context context;
+    private List&lt;CheckableItem&gt; checkableItemList;
+
+
+<span class="fc" id="L22">    public CustomAdapter(Context context, List&lt;CheckableItem&gt; checkableItemArrayList) {</span>
+<span class="fc" id="L23">        this.context = context;</span>
+<span class="fc" id="L24">        this.checkableItemList = checkableItemArrayList;</span>
+<span class="fc" id="L25">    }</span>
+
+    @Override
+    public int getViewTypeCount() {
+<span class="fc" id="L29">        return getCount();</span>
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+<span class="fc" id="L34">        return position;</span>
+    }
+
+    public List&lt;CheckableItem&gt; getCheckableItemList() {
+<span class="fc" id="L38">        return checkableItemList;</span>
+    }
+
+    @Override
+    public int getCount() {
+<span class="fc" id="L43">        return checkableItemList.size();</span>
+    }
+
+    @Override
+    public Object getItem(int position) {
+<span class="fc" id="L48">        return checkableItemList.get(position);</span>
+    }
+
+    @Override
+    public long getItemId(int position) {
+<span class="nc" id="L53">        return 0;</span>
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
+
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if (convertView == null) {</span>
+<span class="fc" id="L61">            holder = new ViewHolder();</span>
+
+<span class="fc" id="L63">            LayoutInflater inflater = (LayoutInflater) context</span>
+<span class="fc" id="L64">                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);</span>
+
+<span class="fc" id="L66">            convertView = inflater.inflate(R.layout.comp_listview_item, null, true);</span>
+
+<span class="fc" id="L68">            holder.checkBox = convertView.findViewById(R.id.item_checkbox);</span>
+
+<span class="fc" id="L70">            convertView.setTag(holder);</span>
+<span class="fc" id="L71">        } else {</span>
+<span class="nc" id="L72">            holder = (ViewHolder) convertView.getTag();</span>
+        }
+
+<span class="fc" id="L75">        holder.checkBox.setText(((TipoFoco) checkableItemList.get(position).getContent()).getDescricao());</span>
+
+<span class="fc" id="L77">        holder.checkBox.setChecked(checkableItemList.get(position).getSelected());</span>
+
+<span class="fc" id="L79">        holder.checkBox.setTag(R.integer.btnplusview, convertView);</span>
+<span class="fc" id="L80">        holder.checkBox.setTag(position);</span>
+<span class="fc" id="L81">        holder.checkBox.setOnClickListener(v -&gt; {</span>
+
+<span class="fc" id="L83">            Integer pos = (Integer)  holder.checkBox.getTag();</span>
+
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">            if(checkableItemList.get(pos).getSelected()){</span>
+<span class="nc" id="L86">                checkableItemList.get(pos).setSelected(false);</span>
+<span class="nc" id="L87">                holder.checkBox.setBackgroundColor(Color.WHITE);</span>
+<span class="nc" id="L88">                holder.checkBox.setTextColor(Color.BLACK);</span>
+            } else {
+<span class="fc" id="L90">                checkableItemList.get(pos).setSelected(true);</span>
+<span class="fc" id="L91">                holder.checkBox.setBackgroundColor(Color.parseColor(&quot;#5F9EA0&quot;));</span>
+<span class="fc" id="L92">                holder.checkBox.setTextColor(Color.WHITE);</span>
+            }
+<span class="fc" id="L94">        });</span>
+
+<span class="fc" id="L96">        return convertView;</span>
+    }
+
+<span class="fc" id="L99">    private class ViewHolder {</span>
+        protected CheckBox checkBox;
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>Generated by the Android Gradle plugin 3.6.1</div></body></html>

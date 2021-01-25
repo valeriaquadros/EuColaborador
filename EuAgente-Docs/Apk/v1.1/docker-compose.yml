@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  euagente-api:
+    container_name: euagente-api
+    image: hueligton/eu-agente:52
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "60633:80"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:12.2
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: euagentedb
+      POSTGRES_USER: euagente
+      POSTGRES_PASSWORD: euagente
+      PGDATA: /var/lib/postgresql/data
+    ports:
+      - "15432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes: 
+  pgdata:

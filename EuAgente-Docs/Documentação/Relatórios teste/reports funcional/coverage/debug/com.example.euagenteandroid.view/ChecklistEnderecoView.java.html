@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChecklistEnderecoView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">com.example.euagenteandroid.view</a> &gt; <span class="el_source">ChecklistEnderecoView.java</span></div><h1>ChecklistEnderecoView.java</h1><pre class="source lang-java linenums">package com.example.euagenteandroid.view;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.WindowManager;
+import android.widget.ListView;
+
+import androidx.annotation.Nullable;
+
+import com.example.euagenteandroid.R;
+import com.example.euagenteandroid.model.entity.Endemia;
+import com.example.euagenteandroid.model.entity.Endereco;
+import com.example.euagenteandroid.model.entity.TipoFoco;
+import com.example.euagenteandroid.model.util.CheckableItem;
+import com.example.euagenteandroid.model.util.CustomAdapter;
+import com.example.euagenteandroid.model.util.Validates;
+import com.example.euagenteandroid.view.bases.BaseActivity;
+
+import java.util.ArrayList;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
+
+<span class="fc" id="L24">public class ChecklistEnderecoView extends BaseActivity {</span>
+
+    private ListView lv;
+    private CustomAdapter customAdapter;
+    private Endereco endereco;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+<span class="fc" id="L32">        setContentView(R.layout.activity_checklist_endereco);</span>
+<span class="fc" id="L33">        super.onCreate(savedInstanceState);</span>
+
+<span class="fc" id="L35">        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,</span>
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+<span class="fc" id="L38">        lv = findViewById(R.id.list_view);</span>
+
+<span class="fc" id="L40">        findViewById(R.id.checklist_button)</span>
+<span class="fc" id="L41">                .setOnClickListener(v -&gt; enviar());</span>
+
+<span class="fc" id="L43">        cadastrarEndereco();</span>
+<span class="fc" id="L44">    }</span>
+
+    public void cadastrarEndereco() {
+<span class="fc" id="L47">        startActivityForResult(new Intent(this, EnderecoView.class), 2);</span>
+<span class="fc" id="L48">    }</span>
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+<span class="fc" id="L52">        super.onActivityResult(requestCode, resultCode, data);</span>
+
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        if (resultCode == 2) {</span>
+<span class="fc" id="L55">            this.endereco = (Endereco) data.getSerializableExtra(&quot;endereco&quot;);</span>
+<span class="fc" id="L56">            carregarListaTipoFoco();</span>
+        }
+<span class="fc" id="L58">    }</span>
+
+    private void carregarListaTipoFoco() {
+<span class="fc" id="L61">        super.getDaoFacade().getEndemiaDAO().getListFocosByEndemiaId(1, (success, response) -&gt; {</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">            if (success) {</span>
+<span class="fc" id="L63">                setContentInView(criarListaItens((Endemia) response));</span>
+            } else {
+<span class="nc" id="L65">                makeText(ChecklistEnderecoView.this, R.string.toast_unavailable_service, LENGTH_SHORT).show();</span>
+            }
+<span class="fc" id="L67">        });</span>
+<span class="fc" id="L68">    }</span>
+
+    private ArrayList&lt;CheckableItem&gt; criarListaItens(Endemia endemia) {
+<span class="fc" id="L71">        ArrayList&lt;CheckableItem&gt; list = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        for(TipoFoco tp : endemia.getTiposFocos()){</span>
+<span class="fc" id="L74">            CheckableItem&lt;TipoFoco&gt; checkableItem = new CheckableItem&lt;&gt;();</span>
+<span class="fc" id="L75">            checkableItem.setSelected(false);</span>
+<span class="fc" id="L76">            checkableItem.setContent(tp);</span>
+<span class="fc" id="L77">            list.add(checkableItem);</span>
+<span class="fc" id="L78">        }</span>
+<span class="fc" id="L79">        return list;</span>
+    }
+
+    private void setContentInView(ArrayList&lt;CheckableItem&gt; checkableItemArrayList) {
+<span class="fc" id="L83">        customAdapter = new CustomAdapter(this, checkableItemArrayList);</span>
+<span class="fc" id="L84">        lv.setAdapter(customAdapter);</span>
+<span class="fc" id="L85">    }</span>
+
+    public void enviar() {
+<span class="fc" id="L88">        ArrayList&lt;Integer&gt; listIdSelected = filtrarItensSelecionados();</span>
+
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        if (Validates.checkListEndereco(listIdSelected)) {</span>
+<span class="fc" id="L91">            super.getDaoFacade().getChecklistEnderecoDAO().create(endereco.getId(), listIdSelected, (success, response) -&gt; {</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">                if (success) {</span>
+<span class="fc" id="L93">                    showSucesso(this, R.string.checklist_sucesso_titulo);</span>
+<span class="fc" id="L94">                    finish();</span>
+                } else {
+<span class="nc" id="L96">                    makeText(ChecklistEnderecoView.this, R.string.toast_unavailable_service, LENGTH_SHORT).show();</span>
+                }
+<span class="fc" id="L98">            });</span>
+        } else
+<span class="nc" id="L100">            makeText(this, R.string.toast_field_not_selected, LENGTH_SHORT).show();</span>
+<span class="fc" id="L101">    }</span>
+
+    private ArrayList&lt;Integer&gt; filtrarItensSelecionados() {
+<span class="fc" id="L104">        ArrayList&lt;Integer&gt; listIds = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        for (CheckableItem m : customAdapter.getCheckableItemList())</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">            if(m.getSelected())</span>
+<span class="fc" id="L107">                listIds.add(((TipoFoco) m.getContent()).getId());</span>
+
+<span class="fc" id="L109">        return listIds;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>Generated by the Android Gradle plugin 3.6.1</div></body></html>

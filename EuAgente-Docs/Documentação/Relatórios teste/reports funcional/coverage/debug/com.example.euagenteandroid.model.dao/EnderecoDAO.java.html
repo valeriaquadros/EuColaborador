@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnderecoDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">com.example.euagenteandroid.model.dao</a> &gt; <span class="el_source">EnderecoDAO.java</span></div><h1>EnderecoDAO.java</h1><pre class="source lang-java linenums">package com.example.euagenteandroid.model.dao;
+
+import android.content.Context;
+import android.os.Looper;
+
+import com.example.euagenteandroid.model.entity.Endereco;
+import com.example.euagenteandroid.model.util.ServerCallback;
+import com.github.gilbertotorrezan.viacep.se.ViaCEPClient;
+import com.github.gilbertotorrezan.viacep.shared.ViaCEPEndereco;
+
+import java.util.HashMap;
+
+public class EnderecoDAO extends Dao{
+
+    public EnderecoDAO(Context context) {
+<span class="fc" id="L16">        super(context, Endereco.class, &quot;/Endereco/&quot;);</span>
+<span class="fc" id="L17">    }</span>
+
+    /**
+     * Método utilizado criar objeto no banco. Retorno via serverCallBack.
+     * Retorna objeto caso sucesso
+     * Retorna nulo caso falha
+     * @param logradouro logradouro
+     * @param numero numero
+     * @param bairro  bairro
+     * @param cidade cidade
+     * @param estado estado
+     * @param cep cep
+     * @param serverCallback interface para retorno da chamada HTTP. Retorna Object via CallBack. Necessário cast.
+     */
+    public void create(String logradouro, String numero, String bairro, String cidade, String estado, String cep, ServerCallback serverCallback) {
+<span class="fc" id="L32">        HashMap&lt;String, Object&gt; params = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L33">        params.put(&quot;logradouro&quot;, logradouro);</span>
+<span class="fc" id="L34">        params.put(&quot;numero&quot;, numero);</span>
+<span class="fc" id="L35">        params.put(&quot;bairro&quot;, bairro);</span>
+<span class="fc" id="L36">        params.put(&quot;cidade&quot;, cidade);</span>
+<span class="fc" id="L37">        params.put(&quot;estado&quot;, estado);</span>
+<span class="fc" id="L38">        params.put(&quot;cep&quot;, cep);</span>
+
+<span class="fc" id="L40">        super.create(params, serverCallback);</span>
+<span class="fc" id="L41">    }</span>
+
+    /**
+     * Método utilizado criar objeto no banco. Retorno via serverCallBack.
+     * Retorna objeto caso sucesso
+     * Retorna nulo caso falha
+     * @param logradouro logradouro
+     * @param numero numero
+     * @param bairro  bairro
+     * @param cidade cidade
+     * @param estado estado
+     * @param cep cep
+     * @param latitude latitude
+     * @param longitude longitude
+     * @param serverCallback interface para retorno da chamada HTTP. Retorna Object via CallBack. Necessário cast.
+     */
+    public void create(String logradouro, String numero, String bairro, String cidade, String estado, String cep, String latitude, String longitude, ServerCallback serverCallback) {
+<span class="fc" id="L58">        HashMap&lt;String, Object&gt; params = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L59">        params.put(&quot;logradouro&quot;, logradouro);</span>
+<span class="fc" id="L60">        params.put(&quot;numero&quot;, numero);</span>
+<span class="fc" id="L61">        params.put(&quot;bairro&quot;, bairro);</span>
+<span class="fc" id="L62">        params.put(&quot;cidade&quot;, cidade);</span>
+<span class="fc" id="L63">        params.put(&quot;estado&quot;, estado);</span>
+<span class="fc" id="L64">        params.put(&quot;cep&quot;, cep);</span>
+<span class="fc" id="L65">        params.put(&quot;latitude&quot;, latitude);</span>
+<span class="fc" id="L66">        params.put(&quot;longitude&quot;, longitude);</span>
+
+<span class="fc" id="L68">        super.create(params, serverCallback);</span>
+<span class="fc" id="L69">    }</span>
+
+    /**
+     * Método utilizado criar objeto no banco. Retorno via serverCallBack.
+     * Retorna objeto caso sucesso
+     * Retorna nulo caso falha
+     * @param coordenadaX coordenada X
+     * @param coordenadaY coordenada Y
+     * @param serverCallback interface para retorno da chamada HTTP. Retorna Object via CallBack. Necessário cast.
+     */
+    public void create(String coordenadaX, String coordenadaY, ServerCallback serverCallback) {
+<span class="nc" id="L80">        HashMap&lt;String, Object&gt; params = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L81">        params.put(&quot;coordenadaX&quot;, coordenadaX);</span>
+<span class="nc" id="L82">        params.put(&quot;coordenadaY&quot;, coordenadaY);</span>
+
+<span class="nc" id="L84">        super.create(params, serverCallback);</span>
+<span class="nc" id="L85">    }</span>
+
+    /**
+     * Método utilizado atualizar objeto no banco. Retorno via serverCallBack.
+     * Retorna objeto caso sucesso
+     * Retorna nulo caso falha
+     * @param id id
+     * @param logradouro logradouro
+     * @param numero numero
+     * @param bairro  bairro
+     * @param cidade cidade
+     * @param estado estado
+     * @param cep cep
+     * @param serverCallback interface para retorno da chamada HTTP. Retorna Object via CallBack. Necessário cast.
+     */
+    public void update(int id, String logradouro, String numero, String bairro, String cidade, String estado, String cep, ServerCallback serverCallback) {
+<span class="nc" id="L101">        HashMap&lt;String, Object&gt; params = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L102">        params.put(&quot;logradouro&quot;, logradouro);</span>
+<span class="nc" id="L103">        params.put(&quot;numero&quot;, numero);</span>
+<span class="nc" id="L104">        params.put(&quot;bairro&quot;, bairro);</span>
+<span class="nc" id="L105">        params.put(&quot;cidade&quot;, cidade);</span>
+<span class="nc" id="L106">        params.put(&quot;estado&quot;, estado);</span>
+<span class="nc" id="L107">        params.put(&quot;cep&quot;, cep);</span>
+
+<span class="nc" id="L109">        super.update(id, params, serverCallback);</span>
+<span class="nc" id="L110">    }</span>
+
+    /**
+     * Método utilizado criar objeto no banco. Retorno via serverCallBack.
+     * Retorna objeto caso sucesso
+     * Retorna nulo caso falha
+     * @param id id
+     * @param coordenadaX coordenada X
+     * @param coordenadaY coordenada Y
+     * @param serverCallback interface para retorno da chamada HTTP. Retorna Object via CallBack. Necessário cast.
+     * @implNote
+     */
+    public void update(int id, String coordenadaX, String coordenadaY, ServerCallback serverCallback) {
+<span class="nc" id="L123">        HashMap&lt;String, Object&gt; params = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L124">        params.put(&quot;coordenadaX&quot;, coordenadaX);</span>
+<span class="nc" id="L125">        params.put(&quot;coordenadaY&quot;, coordenadaY);</span>
+
+<span class="nc" id="L127">        super.update(id, params, serverCallback);</span>
+<span class="nc" id="L128">    }</span>
+
+    public void getEnderecoByCep(String cep, ServerCallback serverCallback) {
+<span class="fc" id="L131">        ViaCEPClient client = new ViaCEPClient();</span>
+<span class="fc" id="L132">        new Thread(() -&gt; {</span>
+<span class="fc" id="L133">            Looper.prepare();</span>
+            try {
+<span class="fc" id="L135">                ViaCEPEndereco viaCEPEndereco = client.getEndereco(cep);</span>
+<span class="fc" id="L136">                serverCallback.onResponse(true, new Endereco(viaCEPEndereco));</span>
+<span class="fc" id="L137">                Thread.currentThread().interrupt();</span>
+<span class="nc" id="L138">            } catch (Exception e) {</span>
+<span class="nc" id="L139">                Thread.currentThread().interrupt();</span>
+<span class="fc" id="L140">            }</span>
+<span class="fc" id="L141">        }).start();</span>
+<span class="fc" id="L142">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>Generated by the Android Gradle plugin 3.6.1</div></body></html>

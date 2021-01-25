@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseActivityWithLocation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">com.example.euagenteandroid.view.bases</a> &gt; <span class="el_source">BaseActivityWithLocation.java</span></div><h1>BaseActivityWithLocation.java</h1><pre class="source lang-java linenums">package com.example.euagenteandroid.view.bases;
+
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Geocoder;
+import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.example.euagenteandroid.R;
+import com.example.euagenteandroid.model.entity.Endereco;
+import com.example.euagenteandroid.view.DenunciaLocalView;
+import com.example.euagenteandroid.view.util.FetchAddressIntentService;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+
+<span class="fc" id="L29">public abstract class BaseActivityWithLocation extends BaseActivity {</span>
+    protected FusedLocationProviderClient fusedLocationClient;
+    protected static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
+    protected LocationAddressResultReceiver addressResultReceiver;
+    protected Location currentLocation;
+    protected LocationCallback locationCallback;
+<span class="fc" id="L35">    protected Endereco endereco = new Endereco();</span>
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+<span class="fc" id="L40">        super.onCreate(savedInstanceState);</span>
+<span class="fc" id="L41">    }</span>
+
+    protected void initEnderecoGps() {
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (!isConnected()) {</span>
+<span class="nc" id="L45">            Toast.makeText(BaseActivityWithLocation.this, R.string.toast_sem_conexao, Toast.LENGTH_LONG).show();</span>
+        }
+
+<span class="nc" id="L48">        addressResultReceiver = new LocationAddressResultReceiver(new Handler());</span>
+
+<span class="nc" id="L50">        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);</span>
+
+<span class="nc" id="L52">        locationCallback = new LocationCallback() {</span>
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+<span class="nc" id="L55">                currentLocation = locationResult.getLocations().get(0);</span>
+<span class="nc" id="L56">                getAddress();</span>
+<span class="nc" id="L57">            }</span>
+        };
+
+<span class="nc" id="L60">        startLocationUpdates();</span>
+<span class="nc" id="L61">    }</span>
+
+    protected boolean isConnected() {
+<span class="nc" id="L64">        ConnectivityManager cm = (ConnectivityManager) getSystemService(DenunciaLocalView.CONNECTIVITY_SERVICE);</span>
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (cm != null) {</span>
+<span class="nc" id="L67">            NetworkInfo ni = cm.getActiveNetworkInfo();</span>
+<span class="nc bnc" id="L68" title="All 4 branches missed.">            return ni != null &amp;&amp; ni.isConnected();</span>
+        }
+
+<span class="nc" id="L71">        return false;</span>
+    }
+
+    protected void getAddress() {
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if (!Geocoder.isPresent()) {</span>
+<span class="nc" id="L76">            Toast.makeText(this, R.string.toast_unavailable_service, Toast.LENGTH_SHORT).show();</span>
+<span class="nc" id="L77">            return;</span>
+        }
+
+<span class="nc" id="L80">        Intent intent = new Intent(this, FetchAddressIntentService.class);</span>
+<span class="nc" id="L81">        intent.putExtra(&quot;add_receiver&quot;, addressResultReceiver);</span>
+<span class="nc" id="L82">        intent.putExtra(&quot;add_location&quot;, currentLocation);</span>
+<span class="nc" id="L83">        startService(intent);</span>
+<span class="nc" id="L84">    }</span>
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+<span class="fc" id="L88">        super.onActivityResult(requestCode, resultCode, data);</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if (resultCode == 2) {</span>
+<span class="fc" id="L90">            this.endereco = (Endereco) data.getSerializableExtra(&quot;endereco&quot;);</span>
+        }
+<span class="fc" id="L92">    }</span>
+
+    protected void startLocationUpdates() {
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {</span>
+<span class="nc" id="L96">            ActivityCompat.requestPermissions(this,</span>
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+<span class="nc" id="L100">            LocationRequest locationRequest = new LocationRequest();</span>
+<span class="nc" id="L101">            locationRequest.setNumUpdates(1);</span>
+<span class="nc" id="L102">            locationRequest.setFastestInterval(1000);</span>
+<span class="nc" id="L103">            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);</span>
+
+<span class="nc" id="L105">            fusedLocationClient.requestLocationUpdates(locationRequest,</span>
+                    locationCallback,
+                    null);
+        }
+<span class="nc" id="L109">    }</span>
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        switch (requestCode) {</span>
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+<span class="nc bnc" id="L116" title="All 4 branches missed.">                if (grantResults.length &gt; 0</span>
+                        &amp;&amp; grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+<span class="nc" id="L118">                    startLocationUpdates();</span>
+                } else {
+<span class="nc" id="L120">                    Toast.makeText(this, R.string.toast_unavailable_service,</span>
+<span class="nc" id="L121">                            Toast.LENGTH_SHORT).show();</span>
+                }
+<span class="nc" id="L123">                return;</span>
+            }
+        }
+<span class="nc" id="L126">    }</span>
+
+    protected class LocationAddressResultReceiver extends ResultReceiver {
+<span class="nc" id="L129">        public LocationAddressResultReceiver(Handler handler) {</span>
+<span class="nc" id="L130">            super(handler);</span>
+<span class="nc" id="L131">        }</span>
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+
+<span class="nc bnc" id="L136" title="All 2 branches missed.">            if (resultCode == 0)</span>
+<span class="nc" id="L137">                getAddress();</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">            else if (resultCode == 1)</span>
+<span class="nc" id="L139">                Toast.makeText(BaseActivityWithLocation.this, R.string.toast_unavailable_service, Toast.LENGTH_SHORT).show();</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">            else if (resultCode == 2) {</span>
+<span class="nc" id="L141">                endereco = (Endereco) resultData.getSerializable(&quot;address_result&quot;);</span>
+<span class="nc" id="L142">                callBackGps();</span>
+            }
+<span class="nc" id="L144">        }</span>
+    }
+
+    protected abstract void callBackGps();
+
+    @Override
+    protected void onPause() {
+<span class="fc" id="L151">        super.onPause();</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">        if (fusedLocationClient != null)</span>
+<span class="nc" id="L153">            fusedLocationClient.removeLocationUpdates(locationCallback);</span>
+<span class="fc" id="L154">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>Generated by the Android Gradle plugin 3.6.1</div></body></html>

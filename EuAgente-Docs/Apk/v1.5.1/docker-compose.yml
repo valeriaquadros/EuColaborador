@@ -1,0 +1,66 @@
+version: '3.4'
+
+services:
+  euagente-api:
+    container_name: euagente-api
+    image: hueligton/eu-agente:79
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+      - BINGAPIKEY=AqO7YKDLNB1eM3sPSCLRSESMTgcgRews5TpROcyYU9_VGtBDQd0tShArh5Q9lTjE
+      - BDCONNECTIONSTRING=Host=postgres;Port=5432;Database=euagentedb;Username=euagente;Password=euagente
+      - WEBURL=http://192.168.25.72:32772
+      - MailServer=smtp.office365.com
+      - MailPort=587
+      - MailSenderName="Eu Agente"
+      - MailSender=naoresponsa-euagen-te@outlook.com.br
+      - MailPassword=033744B4-1C8B-4E69-AC8A-660976D859D3
+    ports:
+      - "60633:80"
+    depends_on:
+      - postgres
+
+  euagente-web:
+    container_name: euagente-web
+    image: hueligton/eu-agente-web:79
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+      - APIURL=http://192.168.25.72:60633
+      - BINGAPIKEY=AqO7YKDLNB1eM3sPSCLRSESMTgcgRews5TpROcyYU9_VGtBDQd0tShArh5Q9lTjE
+    ports:
+      - "32772:80"
+    depends_on:
+      - euagente-api
+
+  postgres:
+    image: postgres:12.2
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: euagentedb
+      POSTGRES_USER: euagente
+      POSTGRES_PASSWORD: euagente
+      PGDATA: /var/lib/postgresql/data
+    ports:
+      - "15432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:4.11
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "euagente@email.com"
+      PGADMIN_DEFAULT_PASSWORD: "euagente"
+    ports:
+      - "15433:80"
+    volumes:
+      - pgdata:/var/lib/pgadmin
+      - pgdata:/pgadmin4/servers.json
+    depends_on:
+      - "postgres"
+
+volumes: 
+  pgdata:

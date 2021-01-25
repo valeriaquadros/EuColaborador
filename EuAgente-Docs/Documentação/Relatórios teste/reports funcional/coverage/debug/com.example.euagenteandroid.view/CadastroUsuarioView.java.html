@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CadastroUsuarioView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">com.example.euagenteandroid.view</a> &gt; <span class="el_source">CadastroUsuarioView.java</span></div><h1>CadastroUsuarioView.java</h1><pre class="source lang-java linenums">package com.example.euagenteandroid.view;
+
+import android.os.Bundle;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+
+import com.example.euagenteandroid.R;
+import com.example.euagenteandroid.model.util.Converter;
+import com.example.euagenteandroid.model.util.Validates;
+import com.example.euagenteandroid.view.bases.BaseActivityWithCpfEditText;
+
+import java.util.Date;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
+
+<span class="fc" id="L18">public class CadastroUsuarioView extends BaseActivityWithCpfEditText {</span>
+
+    private EditText etNome;
+    private EditText etEmail;
+    private EditText etSenha1;
+    private EditText etSenha2;
+    private EditText etDataNascimento;
+    private RadioGroup etSexo;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+<span class="fc" id="L29">        setContentView(R.layout.activity_cadastrar_usuario);</span>
+<span class="fc" id="L30">        super.onCreate(savedInstanceState);</span>
+
+<span class="fc" id="L32">        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,</span>
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+<span class="fc" id="L35">        findViewById(R.id.button_register)</span>
+<span class="fc" id="L36">                .setOnClickListener(v -&gt; cadastrar());</span>
+
+<span class="fc" id="L38">        findViewById(R.id.goToLogin)</span>
+<span class="pc" id="L39">                .setOnClickListener(v -&gt; goToLogin());</span>
+<span class="fc" id="L40">    }</span>
+
+    private void cadastrar() {
+<span class="fc" id="L43">        capturarCampos();</span>
+<span class="fc" id="L44">        enviar();</span>
+<span class="fc" id="L45">    }</span>
+
+    private void capturarCampos() {
+<span class="fc" id="L48">        etNome = findViewById(R.id.register_field_name);</span>
+<span class="fc" id="L49">        etEmail = findViewById(R.id.register_field_email);</span>
+<span class="fc" id="L50">        etDataNascimento = findViewById(R.id.register_field_birth_date);</span>
+<span class="fc" id="L51">        etSexo = findViewById(R.id.register_field_sex);</span>
+<span class="fc" id="L52">        etSenha1 = findViewById(R.id.register_field_password_1);</span>
+<span class="fc" id="L53">        etSenha2 = findViewById(R.id.register_field_password_2);</span>
+<span class="fc" id="L54">    }</span>
+
+    public void enviar() {
+<span class="fc" id="L57">        String nome = etNome.getText().toString();</span>
+<span class="fc" id="L58">        String cpf = etCpf.getCleanText();</span>
+<span class="fc" id="L59">        String email = etEmail.getText().toString();</span>
+        Date dataNascimento;
+        try {
+<span class="fc" id="L62">            dataNascimento = Converter.getDate(etDataNascimento.getText().toString());</span>
+<span class="nc" id="L63">        } catch (Exception e) {</span>
+<span class="nc" id="L64">            makeText(this, R.string.toast_invalid_date, LENGTH_SHORT).show();</span>
+<span class="nc" id="L65">            return;</span>
+<span class="fc" id="L66">        }</span>
+<span class="fc" id="L67">        Character sexo = getSexo();</span>
+<span class="fc" id="L68">        String senha1 = etSenha1.getText().toString();</span>
+<span class="fc" id="L69">        String senha2 = etSenha2.getText().toString();</span>
+
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">        if (validar(nome, cpf, email, senha1, senha2, sexo)) {</span>
+<span class="fc" id="L72">            super.getDaoFacade().getUserDAO().create(nome, cpf, email, senha1, senha2, dataNascimento, sexo, (success, response) -&gt; {</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">                if (success) {</span>
+<span class="fc" id="L74">                    makeText(this, R.string.toast_register_successful, LENGTH_SHORT).show();</span>
+<span class="fc" id="L75">                    finish();</span>
+                } else {
+<span class="nc" id="L77">                    makeText(this, R.string.toast_failed, LENGTH_SHORT).show();</span>
+<span class="nc" id="L78">                    makeText(this, response.toString(), LENGTH_SHORT).show();</span>
+<span class="nc" id="L79">                    etSenha1.getText().clear();</span>
+<span class="nc" id="L80">                    etSenha2.getText().clear();</span>
+                }
+<span class="fc" id="L82">            });</span>
+        }
+<span class="fc" id="L84">    }</span>
+
+    private Character getSexo() {
+<span class="pc bpc" id="L87" title="2 of 3 branches missed.">        switch (etSexo.getCheckedRadioButtonId()) {</span>
+            case R.id.register_field_sex_f:
+<span class="fc" id="L89">                return 'F';</span>
+            case R.id.register_field_sex_m:
+<span class="nc" id="L91">                return 'M';</span>
+            default:
+<span class="nc" id="L93">                return null;</span>
+        }
+    }
+
+    private boolean validar(String nome, String cpf, String email, String senha1, String senha2, Character sexo) {
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        if (senha1.length() &lt; 6) {</span>
+<span class="nc" id="L99">            makeText(this, &quot;A senha deve possuir no mínimo 6 caracteres&quot;, LENGTH_SHORT).show();</span>
+<span class="nc" id="L100">            return false;</span>
+        }
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if (!Validates.criarUsuario(nome, cpf, email, senha1, senha2, sexo)) {</span>
+<span class="nc" id="L103">            makeText(this, R.string.toast_login_empty, LENGTH_SHORT).show();</span>
+<span class="nc" id="L104">            return false;</span>
+        }
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">        if (!Validates.criarUsuarioSenhas(senha1, senha2)){</span>
+<span class="nc" id="L107">            makeText(this, R.string.toast_register_error_passwords, LENGTH_SHORT).show();</span>
+<span class="nc" id="L108">            etSenha1.getText().clear();</span>
+<span class="nc" id="L109">            etSenha2.getText().clear();</span>
+<span class="nc" id="L110">            return false;</span>
+        }
+<span class="fc" id="L112">        return true;</span>
+    }
+
+    public void goToLogin() {
+<span class="nc" id="L116">        finish();</span>
+<span class="nc" id="L117">        super.goTo(LoginView.class);</span>
+<span class="nc" id="L118">    }</span>
+
+    @Override
+    public void cpfValido(String cpf) {
+        //Sem comportamento específico da classe
+<span class="fc" id="L123">    }</span>
+
+    @Override
+    public void cpfInvalido(String cpf) {
+        //Sem comportamento específico da classe
+<span class="nc" id="L128">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>Generated by the Android Gradle plugin 3.6.1</div></body></html>

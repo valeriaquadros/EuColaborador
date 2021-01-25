@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnderecoView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">com.example.euagenteandroid.view</a> &gt; <span class="el_source">EnderecoView.java</span></div><h1>EnderecoView.java</h1><pre class="source lang-java linenums">package com.example.euagenteandroid.view;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.WindowManager;
+import android.widget.EditText;
+
+import androidx.annotation.Nullable;
+
+import com.example.euagenteandroid.R;
+import com.example.euagenteandroid.model.entity.Endereco;
+import com.example.euagenteandroid.model.util.Validates;
+import com.example.euagenteandroid.view.bases.BaseActivity;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
+
+<span class="fc" id="L20">public class EnderecoView extends BaseActivity {</span>
+
+    private EditText etCep;
+    private EditText etLogradouro;
+    private EditText etNumero;
+    private EditText etBairro;
+    private EditText etCidade;
+    private EditText etEstado;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+<span class="fc" id="L31">        setContentView(R.layout.activity_endereco);</span>
+<span class="fc" id="L32">        super.onCreate(savedInstanceState);</span>
+
+<span class="fc" id="L34">        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,</span>
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+<span class="fc" id="L37">        configuracaoInicial();</span>
+
+<span class="fc" id="L39">        findViewById(R.id.button_address).setOnClickListener(v -&gt; enviar());</span>
+
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if(getIntent().getExtras() != null) {</span>
+<span class="nc" id="L42">            preencheEnderecoPorGPS((Endereco) getIntent().getExtras().getSerializable(&quot;editar_endereco&quot;));</span>
+        }
+<span class="fc" id="L44">    }</span>
+
+    private void configuracaoInicial() {
+<span class="fc" id="L47">        capturarCampos();</span>
+<span class="fc" id="L48">        setEnderecoByCep();</span>
+<span class="fc" id="L49">    }</span>
+
+    private void capturarCampos() {
+<span class="fc" id="L52">        etCep = findViewById(R.id.campo_cep);</span>
+<span class="fc" id="L53">        etLogradouro = findViewById(R.id.campo_logradouro);</span>
+<span class="fc" id="L54">        etNumero = findViewById(R.id.campo_numero);</span>
+<span class="fc" id="L55">        etBairro = findViewById(R.id.campo_bairro);</span>
+<span class="fc" id="L56">        etCidade = findViewById(R.id.campo_cidade);</span>
+<span class="fc" id="L57">        etEstado = findViewById(R.id.campo_estado);</span>
+<span class="fc" id="L58">    }</span>
+
+    private void setEnderecoByCep() {
+<span class="fc" id="L61">        etCep.addTextChangedListener(new TextWatcher() {</span>
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+<span class="fc" id="L64">                String cep = etCep.getText().toString();</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">                if (cep.length() == 8) {</span>
+<span class="fc" id="L66">                    getDaoFacade().getEnderecoDAO().getEnderecoByCep(cep, (success, response) -&gt; {</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">                        if (success) {</span>
+<span class="fc" id="L68">                            Endereco endereco = (Endereco) response;</span>
+<span class="fc" id="L69">                            etLogradouro.setText(endereco.getLogradouro());</span>
+<span class="fc" id="L70">                            etBairro.setText(endereco.getBairro());</span>
+<span class="fc" id="L71">                            etCidade.setText(endereco.getCidade());</span>
+<span class="fc" id="L72">                            etEstado.setText(endereco.getEstado());</span>
+                        }
+<span class="fc" id="L74">                    });</span>
+                }
+<span class="fc" id="L76">            }</span>
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //Sem comportamento específico de classe
+<span class="fc" id="L81">            }</span>
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //Sem comportamento específico de classe
+<span class="fc" id="L86">            }</span>
+        });
+<span class="fc" id="L88">    }</span>
+
+    private void enviar() {
+<span class="fc" id="L91">        String logradouro = etLogradouro.getText().toString();</span>
+<span class="fc" id="L92">        String numero = etNumero.getText().toString();</span>
+<span class="fc" id="L93">        String cep = etCep.getText().toString();</span>
+<span class="fc" id="L94">        String bairro = etBairro.getText().toString();</span>
+<span class="fc" id="L95">        String cidade = etCidade.getText().toString();</span>
+<span class="fc" id="L96">        String estado = etEstado.getText().toString();</span>
+
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        if (Validates.endereco(cep, logradouro, numero, bairro, cidade, estado)) {</span>
+<span class="fc" id="L99">            super.getDaoFacade().getEnderecoDAO().create(logradouro, numero, bairro, cidade, estado, cep, (success, response) -&gt; {</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">                if (success) {</span>
+<span class="fc" id="L101">                    Intent returnIntent = getIntent();</span>
+<span class="fc" id="L102">                    returnIntent.putExtra(&quot;endereco&quot;, (Endereco) response);</span>
+<span class="fc" id="L103">                    setResult(2, returnIntent);</span>
+<span class="fc" id="L104">                    makeText(this, R.string.toast_register_successful, LENGTH_SHORT).show();</span>
+<span class="fc" id="L105">                    onBackPressed();</span>
+<span class="fc" id="L106">                } else {</span>
+<span class="nc" id="L107">                    makeText(this, R.string.toast_failed, LENGTH_SHORT).show();</span>
+                }
+<span class="fc" id="L109">            });</span>
+        } else
+<span class="nc" id="L111">            makeText(this, R.string.toast_login_empty, LENGTH_SHORT).show();</span>
+<span class="fc" id="L112">    }</span>
+
+    private void preencheEnderecoPorGPS(Endereco endereco) {
+<span class="nc" id="L115">        etCep.setText(endereco.getCep());</span>
+<span class="nc" id="L116">        etLogradouro.setText(endereco.getLogradouro());</span>
+<span class="nc" id="L117">        etNumero.setText(endereco.getNumero());</span>
+<span class="nc" id="L118">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>Generated by the Android Gradle plugin 3.6.1</div></body></html>

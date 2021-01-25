@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CpfEditText.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">com.example.euagenteandroid.view.util</a> &gt; <span class="el_source">CpfEditText.java</span></div><h1>CpfEditText.java</h1><pre class="source lang-java linenums">package com.example.euagenteandroid.view.util;
+
+import android.content.Context;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.text.method.NumberKeyListener;
+import android.util.AttributeSet;
+
+public class CpfEditText extends androidx.appcompat.widget.AppCompatEditText {
+
+    private boolean isUpdating;
+<span class="pc" id="L13">    private int[] positioning = {0, 1, 2, 3, 5, 6, 7, 9, 10, 11, 13, 14};</span>
+
+    public CpfEditText(Context context, AttributeSet attrs, int defStyle) {
+<span class="nc" id="L16">        super(context, attrs, defStyle);</span>
+<span class="nc" id="L17">        initialize();</span>
+<span class="nc" id="L18">    }</span>
+
+    public CpfEditText(Context context, AttributeSet attrs) {
+<span class="fc" id="L21">        super(context, attrs);</span>
+<span class="fc" id="L22">        initialize();</span>
+<span class="fc" id="L23">    }</span>
+
+    public CpfEditText(Context context) {
+<span class="nc" id="L26">        super(context);</span>
+<span class="nc" id="L27">    }</span>
+
+    public String getCleanText() {
+<span class="fc" id="L30">        String text = CpfEditText.this.getText().toString();</span>
+<span class="fc" id="L31">        return text.replaceAll(&quot;[^0-9]*&quot;, &quot;&quot;);</span>
+    }
+
+    private void initialize() {
+<span class="fc" id="L35">        final int maxNumberLength = 11;</span>
+<span class="fc" id="L36">        this.setKeyListener(keylistenerNumber);</span>
+
+<span class="fc" id="L38">        this.addTextChangedListener(new TextWatcher() {</span>
+            public void afterTextChanged(Editable s) {
+<span class="fc" id="L40">                String current = s.toString();</span>
+
+<span class="fc bfc" id="L42" title="All 2 branches covered.">                if (isUpdating) {</span>
+<span class="fc" id="L43">                    isUpdating = false;</span>
+<span class="fc" id="L44">                    return;</span>
+                }
+
+<span class="fc" id="L47">                String number = current.replaceAll(&quot;[^0-9]*&quot;, &quot;&quot;);</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">                if (number.length() &gt; 11)</span>
+<span class="nc" id="L49">                    number = number.substring(0, 11);</span>
+<span class="fc" id="L50">                int length = number.length();</span>
+
+<span class="fc" id="L52">                String paddedNumber = padNumber(number, maxNumberLength);</span>
+
+<span class="fc" id="L54">                String part1 = paddedNumber.substring(0, 3);</span>
+<span class="fc" id="L55">                String part2 = paddedNumber.substring(3, 6);</span>
+<span class="fc" id="L56">                String part3 = paddedNumber.substring(6, 9);</span>
+<span class="fc" id="L57">                String part4 = paddedNumber.substring(9, 11);</span>
+
+<span class="fc" id="L59">                String cpf = part1 + &quot;.&quot; + part2 + &quot;.&quot; + part3 + &quot;-&quot; + part4;</span>
+
+<span class="fc" id="L61">                isUpdating = true;</span>
+<span class="fc" id="L62">                CpfEditText.this.setText(cpf);</span>
+
+<span class="fc" id="L64">                CpfEditText.this.setSelection(positioning[length]);</span>
+
+<span class="fc" id="L66">            }</span>
+
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                //Sem comportamento específico da classe
+<span class="fc" id="L71">            }</span>
+
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                //Sem comportamento específico da classe
+<span class="fc" id="L76">            }</span>
+        });
+<span class="fc" id="L78">    }</span>
+
+    protected String padNumber(String number, int maxLength) {
+<span class="fc" id="L81">        StringBuilder padded = new StringBuilder(number);</span>
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">        for (int i = 0; i &lt; maxLength - number.length(); i++)</span>
+<span class="nc" id="L83">            padded.append(&quot; &quot;);</span>
+<span class="fc" id="L84">        return padded.toString();</span>
+    }
+
+<span class="pc" id="L87">    private final KeylistenerNumber keylistenerNumber = new KeylistenerNumber();</span>
+
+<span class="fc" id="L89">    private class KeylistenerNumber extends NumberKeyListener {</span>
+        public int getInputType() {
+<span class="fc" id="L91">            return InputType.TYPE_CLASS_NUMBER</span>
+                    | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
+        }
+
+        @Override
+        protected char[] getAcceptedChars() {
+<span class="nc" id="L97">            return new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>Generated by the Android Gradle plugin 3.6.1</div></body></html>

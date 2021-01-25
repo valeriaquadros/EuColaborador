@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical"
+    tools:context=".view.ChecklistEnderecoView">
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/toolbar_layout" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/arciform"
+        android:gravity="center"
+        android:text="@string/checklist_residencia"
+        android:textSize="30sp"
+        android:layout_marginVertical="15dp"
+        android:id="@+id/title"
+        android:layout_below="@+id/toolbar" />
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="10dp"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:layout_below="@+id/title"
+        android:layout_above="@+id/checklist_button" />
+
+    <Button
+        android:id="@+id/checklist_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingHorizontal="30dp"
+        android:layout_marginVertical="10dp"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorButton"
+        android:text="@string/salvar"
+        android:layout_above="@+id/bottomNavigationView" />
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/bottom_layout" />
+</RelativeLayout>

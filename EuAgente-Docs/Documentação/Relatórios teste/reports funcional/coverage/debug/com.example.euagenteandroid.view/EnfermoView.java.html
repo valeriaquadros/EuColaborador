@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnfermoView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">com.example.euagenteandroid.view</a> &gt; <span class="el_source">EnfermoView.java</span></div><h1>EnfermoView.java</h1><pre class="source lang-java linenums">package com.example.euagenteandroid.view;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Switch;
+import android.widget.TextView;
+
+import com.example.euagenteandroid.R;
+import com.example.euagenteandroid.model.entity.Endereco;
+import com.example.euagenteandroid.model.entity.Pessoa;
+import com.example.euagenteandroid.view.bases.BaseActivityWithCpfEditText;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
+
+<span class="fc" id="L23">public class EnfermoView extends BaseActivityWithCpfEditText {</span>
+
+    private Switch swGestante;
+    private View compPessoa;
+    private TextView compNomePessoa;
+    private int numeroEnderecosCadastrados;
+    private Button btEndereco;
+    private Button btPessoa;
+    private Button btFinalizar;
+    private LinearLayout compEndereco;
+    private Pessoa pessoa;
+    private List&lt;Endereco&gt; enderecos;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+<span class="fc" id="L38">        setContentView(R.layout.activity_enfermo);</span>
+<span class="fc" id="L39">        super.onCreate(savedInstanceState);</span>
+
+<span class="fc" id="L41">        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,</span>
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+<span class="fc" id="L44">        configuracaoInicial();</span>
+
+<span class="fc" id="L46">        addItemTutorial(R.id.comp_cpf, R.string.enfermo_tutorial_cpf, &quot;intro_enfermo_cpf&quot;);</span>
+<span class="fc" id="L47">        showTutorial();</span>
+<span class="fc" id="L48">    }</span>
+
+    private void configuracaoInicial() {
+<span class="fc" id="L51">        capturarCampos();</span>
+<span class="fc" id="L52">    }</span>
+
+    private void capturarCampos() {
+<span class="fc" id="L55">        enderecos = new ArrayList&lt;&gt;(2);</span>
+<span class="fc" id="L56">        compPessoa = findViewById(R.id.compPerson);</span>
+<span class="fc" id="L57">        compNomePessoa = findViewById(R.id.compPersonName);</span>
+<span class="fc" id="L58">        swGestante = findViewById(R.id.sickperson_gestante);</span>
+<span class="fc" id="L59">        btEndereco = findViewById(R.id.sickperson_enderecoButton);</span>
+<span class="fc" id="L60">        btPessoa = findViewById(R.id.sickperson_pessoaButton);</span>
+<span class="fc" id="L61">        btFinalizar = findViewById(R.id.sickperson_button);</span>
+<span class="fc" id="L62">        compEndereco = findViewById(R.id.compAddress);</span>
+<span class="fc" id="L63">    }</span>
+
+    public void cadastrar(View view) {
+<span class="fc" id="L66">        getDaoFacade().getEnfermoDAO().create(swGestante.isChecked(), 1, pessoa.getId(), enderecos, (success, response) -&gt; {</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">            if (success) {</span>
+<span class="fc" id="L68">                showSucesso(this, R.string.cadastro_completo);</span>
+<span class="fc" id="L69">                finish();</span>
+            } else {
+<span class="nc" id="L71">                makeText(this, R.string.toast_failed, LENGTH_SHORT).show();</span>
+            }
+<span class="fc" id="L73">        });</span>
+<span class="fc" id="L74">    }</span>
+
+    public void cadastrarPessoa(View view) {
+<span class="fc" id="L77">        Intent intent = new Intent(this, PessoaView.class);</span>
+<span class="fc" id="L78">        intent.putExtra(&quot;cpf&quot;, etCpf.getCleanText());</span>
+<span class="fc" id="L79">        startActivityForResult(intent, 3);</span>
+<span class="fc" id="L80">    }</span>
+
+    public void cadastrarEndereco(View view) {
+<span class="fc" id="L83">        startActivityForResult(new Intent(this, EnderecoView.class), 2);</span>
+<span class="fc" id="L84">    }</span>
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+<span class="fc" id="L88">        super.onActivityResult(requestCode, resultCode, data);</span>
+
+<span class="pc bpc" id="L90" title="1 of 3 branches missed.">        switch (resultCode) {</span>
+            case 2:
+<span class="fc" id="L92">                Endereco endereco = (Endereco) data.getSerializableExtra(&quot;endereco&quot;);</span>
+<span class="fc" id="L93">                enderecos.add(endereco);</span>
+<span class="fc" id="L94">                inserirComponenteEndereco(endereco);</span>
+<span class="fc" id="L95">                break;</span>
+            case 3:
+<span class="fc" id="L97">                this.pessoa = (Pessoa) data.getSerializableExtra(&quot;pessoa&quot;);</span>
+<span class="fc" id="L98">                inserirComponentePessoa();</span>
+<span class="fc" id="L99">                break;</span>
+            default:
+                break;
+        }
+<span class="fc" id="L103">    }</span>
+
+    private void inserirComponenteEndereco(Endereco endereco) {
+<span class="fc" id="L106">        View tempCompEndereco = View.inflate(this, R.layout.comp_endereco, null);</span>
+<span class="fc" id="L107">        tempCompEndereco.findViewById(R.id.btDeletar).setOnClickListener(view1 -&gt; {</span>
+<span class="nc" id="L108">            compEndereco.removeView(tempCompEndereco);</span>
+<span class="nc" id="L109">            numeroEnderecosCadastrados--;</span>
+<span class="nc" id="L110">            enderecos.remove(endereco);</span>
+<span class="nc" id="L111">            verificarBotoes();</span>
+<span class="nc" id="L112">        });</span>
+<span class="fc" id="L113">        compEndereco.addView(tempCompEndereco);</span>
+<span class="fc" id="L114">        numeroEnderecosCadastrados++;</span>
+
+<span class="fc" id="L116">        ((TextView) tempCompEndereco.findViewById(R.id.compLogradouro)).setText(endereco.getLogradouro());</span>
+<span class="fc" id="L117">        ((TextView) tempCompEndereco.findViewById(R.id.compNumero)).setText(endereco.getNumero());</span>
+<span class="fc" id="L118">        ((TextView) tempCompEndereco.findViewById(R.id.compBairro)).setText(endereco.getBairro());</span>
+
+<span class="fc" id="L120">        verificarBotoes();</span>
+<span class="fc" id="L121">    }</span>
+
+    private void verificarBotoes() {
+<span class="fc" id="L124">        btEnderecoVisible();</span>
+<span class="fc" id="L125">        btFinalizarVisible();</span>
+<span class="fc" id="L126">    }</span>
+
+    private void btEnderecoVisible() {
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">        if (numeroEnderecosCadastrados &lt; 2) {</span>
+<span class="fc" id="L130">            btEndereco.setVisibility(View.VISIBLE);</span>
+        } else {
+<span class="nc" id="L132">            btEndereco.setVisibility(View.GONE);</span>
+        }
+<span class="fc" id="L134">    }</span>
+
+    private void btFinalizarVisible() {
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">        if (numeroEnderecosCadastrados == 0) {</span>
+<span class="nc" id="L138">            btFinalizar.setVisibility(View.GONE);</span>
+        } else {
+<span class="fc" id="L140">            btFinalizar.setVisibility(View.VISIBLE);</span>
+        }
+<span class="fc" id="L142">    }</span>
+
+    private void inserirComponentePessoa() {
+<span class="fc" id="L145">        compNomePessoa.setText(pessoa.getNome());</span>
+<span class="fc" id="L146">        compPessoa.setVisibility(View.VISIBLE);</span>
+<span class="fc" id="L147">        btEndereco.setVisibility(View.VISIBLE);</span>
+<span class="fc" id="L148">        btPessoa.setVisibility(View.GONE);</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">        if (pessoa.getSexo().equalsIgnoreCase(&quot;f&quot;))</span>
+<span class="nc" id="L150">            swGestante.setVisibility(View.VISIBLE);</span>
+        else
+<span class="fc" id="L152">            swGestante.setVisibility(View.GONE);</span>
+
+<span class="fc" id="L154">        addItemTutorial(R.id.sickperson_enderecoButton, R.string.enfermo_tutorial_endereco, &quot;intro_enfermo_endereco&quot;);</span>
+<span class="fc" id="L155">        showTutorial();</span>
+
+<span class="fc" id="L157">    }</span>
+
+    public void cpfValido(String cpf) {
+<span class="fc" id="L160">        getDaoFacade().getPessoaDAO().getPessoaByCpf(cpf, (success, response) -&gt; {</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">            if (success) {</span>
+<span class="fc" id="L162">                pessoa = (Pessoa) response;</span>
+<span class="fc" id="L163">                inserirComponentePessoa();</span>
+            } else {
+<span class="fc" id="L165">                btPessoa.setVisibility(View.VISIBLE);</span>
+<span class="fc" id="L166">                compPessoa.setVisibility(View.GONE);</span>
+<span class="fc" id="L167">                swGestante.setVisibility(View.GONE);</span>
+<span class="fc" id="L168">                btEndereco.setVisibility(View.GONE);</span>
+<span class="fc" id="L169">                btFinalizar.setVisibility(View.GONE);</span>
+            }
+<span class="fc" id="L171">        });</span>
+<span class="fc" id="L172">    }</span>
+
+    @Override
+    public void cpfInvalido(String cpf) {
+<span class="nc" id="L176">        btPessoa.setVisibility(View.GONE);</span>
+<span class="nc" id="L177">        compPessoa.setVisibility(View.GONE);</span>
+<span class="nc" id="L178">        swGestante.setVisibility(View.GONE);</span>
+<span class="nc" id="L179">        btEndereco.setVisibility(View.GONE);</span>
+<span class="nc" id="L180">        btFinalizar.setVisibility(View.GONE);</span>
+<span class="nc" id="L181">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>Generated by the Android Gradle plugin 3.6.1</div></body></html>

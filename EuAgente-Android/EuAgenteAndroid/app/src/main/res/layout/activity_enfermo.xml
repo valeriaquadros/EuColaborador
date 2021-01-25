@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical"
+    tools:context=".view.EnfermoView">
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/toolbar_layout" />
+
+    <ScrollView
+        android:id="@+id/sickPersonScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomNavigationView"
+        android:layout_below="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="40dp"
+            android:scrollbarAlwaysDrawVerticalTrack="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/arciform"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="@string/sickperson_title"
+                android:textSize="40dp" />
+
+            <include
+                android:id="@+id/comp_cpf"
+                layout="@layout/comp_cpf" />
+
+            <Button
+                android:id="@+id/sickperson_pessoaButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="24dp"
+                android:background="@color/colorButton"
+                android:onClick="cadastrarPessoa"
+                android:paddingHorizontal="15dp"
+                android:text="@string/sickperson_pessoaButton"
+                android:textColor="@color/colorWhite"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/compPerson"
+                layout="@layout/comp_pessoa"
+                android:visibility="gone" />
+
+            <Switch
+                android:id="@+id/sickperson_gestante"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sickperson_field_gestante"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/compAddress"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:paddingHorizontal="0dp"
+                android:scrollbarAlwaysDrawVerticalTrack="true" />
+
+            <Button
+                android:id="@+id/sickperson_enderecoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:background="@color/colorButton"
+                android:onClick="cadastrarEndereco"
+                android:paddingHorizontal="15dp"
+                android:text="@string/sickperson_enderecoButton"
+                android:textColor="@color/colorWhite"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/sickperson_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/colorButton"
+                android:onClick="cadastrar"
+                android:paddingHorizontal="15dp"
+                android:text="@string/pessoa_button"
+                android:textColor="@color/colorWhite"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/bottom_layout" />
+
+</RelativeLayout>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DenunciaLocalView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">com.example.euagenteandroid.view</a> &gt; <span class="el_source">DenunciaLocalView.java</span></div><h1>DenunciaLocalView.java</h1><pre class="source lang-java linenums">package com.example.euagenteandroid.view;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import com.example.euagenteandroid.R;
+import com.example.euagenteandroid.model.entity.Endereco;
+import com.example.euagenteandroid.model.util.Constants;
+import com.example.euagenteandroid.model.util.Validates;
+import com.example.euagenteandroid.view.bases.BaseActivityWithLocation;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
+
+<span class="fc" id="L28">public class DenunciaLocalView extends BaseActivityWithLocation {</span>
+    private EditText etEdereco;
+    protected Button btnEnderecoGps;
+    private LinearLayout llEndereco;
+    private ImageView ivLocal;
+<span class="fc" id="L33">    private Handler handler = new Handler();</span>
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+<span class="fc" id="L37">        setContentView(R.layout.activity_denuncia_local);</span>
+<span class="fc" id="L38">        super.onCreate(savedInstanceState);</span>
+
+<span class="fc" id="L40">        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,</span>
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+<span class="fc" id="L43">        etEdereco = findViewById(R.id.denuncia_local_et_endereco);</span>
+<span class="fc" id="L44">        llEndereco = findViewById(R.id.denuncia_local_ll_endereco);</span>
+<span class="fc" id="L45">        btnEnderecoGps = findViewById(R.id.denuncia_local_btn_endereco_gps);</span>
+<span class="fc" id="L46">        ivLocal = findViewById(R.id.denuncia_local_iv);</span>
+
+<span class="fc" id="L48">        findViewById(R.id.denuncia_local_btn_endereco_informar).setOnClickListener(v -&gt; cadastrarEndereco());</span>
+<span class="pc" id="L49">        btnEnderecoGps.setOnClickListener(v -&gt; buscarEndereco());</span>
+
+<span class="pc" id="L51">        findViewById(R.id.denuncia_local_btn_editar_endereco).setOnClickListener(v -&gt; editarEndereco());</span>
+
+<span class="fc" id="L53">        findViewById(R.id.denuncia_local_btn).setOnClickListener(v -&gt; enviar());</span>
+<span class="fc" id="L54">    }</span>
+
+    private void cadastrarEndereco() {
+<span class="fc" id="L57">        ivLocal.setVisibility(View.GONE);</span>
+<span class="fc" id="L58">        startActivityForResult(new Intent(this, EnderecoView.class), 2);</span>
+<span class="fc" id="L59">    }</span>
+
+    private void buscarEndereco() {
+<span class="nc" id="L62">        findViewById(R.id.lav_thumbDown).setVisibility(View.VISIBLE);</span>
+<span class="nc" id="L63">        initEnderecoGps();</span>
+<span class="nc" id="L64">    }</span>
+
+    @Override
+    protected void callBackGps() {
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (fusedLocationClient != null)</span>
+<span class="nc" id="L69">            fusedLocationClient.removeLocationUpdates(locationCallback);</span>
+<span class="nc" id="L70">        buscarBairroCep();</span>
+<span class="nc" id="L71">    }</span>
+
+    private void buscarBairroCep() {
+<span class="nc" id="L74">        getDaoFacade().getEnderecoDAO().getEnderecoByCep(endereco.getCep(), (success, response) -&gt; {</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            if (success) {</span>
+<span class="nc" id="L76">                Endereco enderecoResponse = (Endereco) response;</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                if (!enderecoResponse.getLogradouro().isEmpty())</span>
+<span class="nc" id="L78">                    endereco.setLogradouro(enderecoResponse.getLogradouro());</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">                if (!enderecoResponse.getBairro().isEmpty())</span>
+<span class="nc" id="L80">                    endereco.setBairro(enderecoResponse.getBairro());</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">                if (!enderecoResponse.getCidade().isEmpty())</span>
+<span class="nc" id="L82">                    endereco.setCidade(enderecoResponse.getCidade());</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">                if (!enderecoResponse.getEstado().isEmpty())</span>
+<span class="nc" id="L84">                    endereco.setEstado(enderecoResponse.getEstado());</span>
+<span class="nc" id="L85">                setEnderecoNoLayout();</span>
+<span class="nc" id="L86">            } else {</span>
+<span class="nc" id="L87">                makeText(DenunciaLocalView.this, R.string.toast_unavailable_service, LENGTH_SHORT).show();</span>
+            }
+<span class="nc" id="L89">        });</span>
+<span class="nc" id="L90">    }</span>
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+<span class="fc" id="L94">        super.onActivityResult(requestCode, resultCode, data);</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        if (resultCode == 2) {</span>
+<span class="fc" id="L96">            setEnderecoNoLayout();</span>
+        }
+<span class="fc" id="L98">    }</span>
+
+    private void setEnderecoNoLayout(){
+<span class="fc" id="L101">        etEdereco.post(() -&gt; {</span>
+<span class="fc" id="L102">            etEdereco.setText(endereco.getLogradouro() + &quot;, &quot; + endereco.getNumero());</span>
+<span class="fc" id="L103">            findViewById(R.id.lav_thumbDown).setVisibility(View.GONE);</span>
+<span class="fc" id="L104">            llEndereco.setVisibility(View.VISIBLE);</span>
+<span class="fc" id="L105">            baixarImagemClick();</span>
+<span class="fc" id="L106">        });</span>
+<span class="fc" id="L107">    }</span>
+
+    public void enviar() {
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">        if (Validates.denunciaLocal(endereco)) {</span>
+<span class="fc" id="L111">            super.getDaoFacade().getEnderecoDAO()</span>
+<span class="fc" id="L112">                    .create(endereco.getLogradouro(), endereco.getNumero(), endereco.getBairro(), endereco.getCidade(), endereco.getEstado(), endereco.getCep(), endereco.getLatitude(), endereco.getLongitude(), (success, response) -&gt; {</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">                        if (success) {</span>
+<span class="fc" id="L114">                            endereco = (Endereco) response;</span>
+<span class="fc" id="L115">                            cadastrarDenuncia();</span>
+                        } else {
+<span class="nc" id="L117">                            makeText(DenunciaLocalView.this, R.string.toast_unavailable_service, LENGTH_SHORT).show();</span>
+                        }
+<span class="fc" id="L119">                    });</span>
+        } else
+<span class="nc" id="L121">            makeText(this, R.string.toast_login_empty, LENGTH_SHORT).show();</span>
+<span class="fc" id="L122">    }</span>
+
+    private void cadastrarDenuncia() {
+<span class="fc" id="L125">        super.getDaoFacade().getDenunciaFocoDAO().create(endereco.getId(), 1, (success, response) -&gt; {</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">            if (success) {</span>
+<span class="fc" id="L127">                showSucesso(this, R.string.denuncia_local_sucesso_titulo);</span>
+<span class="fc" id="L128">                finish();</span>
+            } else {
+<span class="nc" id="L130">                makeText(DenunciaLocalView.this, R.string.toast_unavailable_service, LENGTH_SHORT).show();</span>
+            }
+<span class="fc" id="L132">        });</span>
+<span class="fc" id="L133">    }</span>
+
+    private void editarEndereco() {
+<span class="nc" id="L136">        Bundle bundle = new Bundle();</span>
+<span class="nc" id="L137">        bundle.putSerializable(&quot;editar_endereco&quot;, endereco);</span>
+<span class="nc" id="L138">        startActivityForResult(new Intent(this, EnderecoView.class).putExtras(bundle), 2);</span>
+<span class="nc" id="L139">        ivLocal.setVisibility(View.GONE);</span>
+<span class="nc" id="L140">    }</span>
+
+    public void baixarImagemClick() {
+<span class="fc" id="L143">        ivLocal.setVisibility(View.VISIBLE);</span>
+<span class="fc" id="L144">        new Thread() {</span>
+            public void run(){
+<span class="fc" id="L146">                Bitmap img = null;</span>
+                try {
+<span class="fc" id="L148">                    URL url = new URL(&quot;https://dev.virtualearth.net/REST/V1/Imagery/Map/Road/&quot;</span>
+<span class="fc" id="L149">                            +endereco.getLatitude()+&quot;%2C&quot;+endereco.getLongitude()</span>
+<span class="fc" id="L150">                            +&quot;/18?mapSize=300,300&amp;format=png&amp;pushpin=&quot;+endereco.getLatitude()+&quot;,&quot;</span>
+<span class="fc" id="L151">                            +endereco.getLongitude()+&quot;;64;Hi&amp;key=&quot;+Constants.bingapikey);</span>
+<span class="fc" id="L152">                    HttpURLConnection conexao = (HttpURLConnection) url.openConnection();</span>
+<span class="fc" id="L153">                    InputStream input = conexao.getInputStream();</span>
+<span class="fc" id="L154">                    img = BitmapFactory.decodeStream(input);</span>
+<span class="pc" id="L155">                } catch (Exception e) { }</span>
+
+<span class="fc" id="L157">                Bitmap finalImg = img;</span>
+<span class="fc" id="L158">                handler.post(() -&gt; ivLocal.setImageBitmap(finalImg));</span>
+<span class="fc" id="L159">            }</span>
+<span class="fc" id="L160">        }.start();</span>
+
+<span class="fc" id="L162">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>Generated by the Android Gradle plugin 3.6.1</div></body></html>

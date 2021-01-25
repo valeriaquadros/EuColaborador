@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/expanded_menu"
+        android:icon="@drawable/ic_menu_24dp"
+        android:title="@string/menu_option_title"
+        app:showAsAction="ifRoom|collapseActionView">
+        <menu>
+            <item
+                android:id="@+id/item_residence_verification"
+                android:title="@string/menu_option_residence_verification"
+                app:showAsAction="ifRoom|collapseActionView"/>
+            <item
+                android:id="@+id/item_option_sick_person"
+                android:title="@string/menu_option_sick_person"
+                app:showAsAction="ifRoom|collapseActionView"/>
+            <item
+                android:id="@+id/item_option_complaint"
+                android:title="@string/menu_option_complaint"
+                app:showAsAction="ifRoom|collapseActionView"/>
+            <item
+                android:id="@+id/item_option_edit_perfil"
+                android:title="@string/menu_option_edit_perfil"
+                app:showAsAction="ifRoom|collapseActionView"/>
+            <item
+                android:id="@+id/item_option_logout"
+                android:title="@string/menu_option_logout"
+                app:showAsAction="ifRoom|collapseActionView"/>
+        </menu>
+    </item>
+</menu>

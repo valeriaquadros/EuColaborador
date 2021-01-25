@@ -1,0 +1,85 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.sonarqube'
+apply plugin: 'jacoco-android'
+
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.example.euagenteandroid"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 10
+        versionName "1.5.1"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            testCoverageEnabled true
+        }
+
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+
+}
+
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.github.santalu:mask-edittext:1.1.1'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.github.gilberto-torrezan:viacep:1.2.0'
+    implementation 'com.fasterxml.jackson.jr:jackson-jr-objects:2.6.3'
+    implementation 'com.airbnb.android:lottie:3.4.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.github.iammert:MaterialIntroView:1.6.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "euagente-android"
+        property "sonar.projectKey", "euagente-android"
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.projectVersion", "1.0"
+        property "sonar.language", "java"
+        property "sonar.sources", "src/main/"
+
+        def libraries = project.android.sdkDirectory.getPath() + "/platforms/android-29/android.jar"/* + ", build/intermediates/exploded-aar*//**//*classes.jar"*/
+        property "sonar.sources", "src/main/java"
+        property "sonar.binaries", "build/intermediates/app_classes/debug"
+        property "sonar.libraries", libraries
+        property "sonar.tests", "src/test/java, src/androidTest/java"
+        property "sonar.java.test.binaries", "build/intermediates/app_classes/debug"
+        property "sonar.java.test.libraries", libraries
+        property "sonar.jacoco.reportPath", "app/build/jacoco/testDebugUnitTest.exec"
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.junit.reportsPath", "app/build/test-results/debug"
+        property "sonar.android.lint.report", "app/build/outputs/lint-results"
+    }
+
+}
