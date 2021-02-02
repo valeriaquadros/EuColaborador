@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Eu, Agente!</string>
+    <string name="app_name">Eu, Colaborador!</string>
 
     <string name="navigation_menu">Início</string>
     <string name="navigation_infos">Informações</string>
     <string name="navigation_prevencao">Prevençāo</string>
     <string name="navigation_maps">Mapa</string>
 
-    <string name="welcome_title">"Bem-vindo(a) ao Eu, Agente!"</string>
+    <string name="welcome_title">"Bem-vindo(a) ao Eu, Colaborador!"</string>
     <string name="welcome_text">Um aplicativo para a colaboração popular na identificação de locais de risco de transmissão da dengue e demais doenças associadas ao mosquito Aedes Aegypt.</string>
 
     <string name="menu_option_title">Menu</string>
@@ -107,7 +107,7 @@
     <string name="prevencao_list_9">Entregue pneus velhos à limpeza ou mantenha em local fechado.</string>
     <string name="prevencao_list_10">Coloque lixo em sacos plásticos e mantenha a lixeira fechada.</string>
 
-    <string name="tutorial_home">"Bem vindo ao Eu, Agente! Aqui você encontrará maneiras de ser ativo no combate a dengue na sua região.</string>
+    <string name="tutorial_home">"Bem vindo ao Eu, Colaborador! Aqui você encontrará maneiras de ser ativo no combate a dengue na sua região.</string>
     <string name="tutorial_informacoes">"Informações sobre os sintomas causados pela dengue."</string>
     <string name="tutorial_prevencao">"Como você pode evitar a proliferação do mosquito."</string>
     <string name="tutorial_mapa">"Mapa com informações de locais com foco de dengue."</string>

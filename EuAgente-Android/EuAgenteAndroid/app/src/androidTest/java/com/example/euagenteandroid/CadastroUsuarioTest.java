@@ -166,14 +166,14 @@ public class CadastroUsuarioTest {
         }
 
         ViewInteraction textView3 = onView(
-                allOf(withText("Bem-vindo(a) ao Eu, Agente!"),
+                allOf(withText("Bem-vindo(a) ao Eu, Colaborador!"),
                         childAtPosition(
                                 childAtPosition(
                                         IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
                                         1),
                                 0),
                         isDisplayed()));
-        textView3.check(matches(withText("Bem-vindo(a) ao Eu, Agente!")));
+        textView3.check(matches(withText("Bem-vindo(a) ao Eu, Colaborador!")));
 
 
         onView(withId(R.id.expanded_menu)).perform(click());
