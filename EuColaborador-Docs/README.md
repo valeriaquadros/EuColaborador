@@ -1,4 +1,4 @@
-# EuAgente-Docs
+# EuColaborador-Docs
 Repositório destinado a documentação do projeto Eu, Agente criada pelo grupo 3 de 2020-01 da Fábrica de Software da FACOM-UFMS.
 
 ## Integrantes - Principais contribuições (informações detalhadas na apresentação)
@@ -23,3 +23,7 @@ Repositório destinado a documentação do projeto Eu, Agente criada pelo grupo 
 ## Apresentação
 A gravação da apresentação da solução a banca pode ser assistida em:
 `https://youtu.be/mfV14hGFiZI`
+
+## Observações
+
+> Os documentos contidos neste diretório foram criados antes da alteração de nome do projeto. Portanto, ao encontrar o termo "Agente", entenda-se como "Colaborador".
