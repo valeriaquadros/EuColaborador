@@ -24,3 +24,6 @@ Repositório destinado a documentação do projeto Eu, Agente criada pelo grupo 
 A gravação da apresentação da solução a banca pode ser assistida em:
 `https://youtu.be/mfV14hGFiZI`
 
+## Observações
+
+> Os documentos contidos neste diretório foram criados antes da alteração de nome do projeto. Portanto, ao encontrar o termo "Agente", entenda-se como "Colaborador".
