@@ -1,7 +1,7 @@
-package com.example.euagenteandroid;
+package br.com.eucolaborador;
 
-import com.example.euagenteandroid.model.util.Converter;
-import com.example.euagenteandroid.model.util.Validates;
+import br.com.eucolaborador.model.util.Converter;
+import br.com.eucolaborador.model.util.Validates;
 
 import org.junit.Assert;
 import org.junit.Test;
