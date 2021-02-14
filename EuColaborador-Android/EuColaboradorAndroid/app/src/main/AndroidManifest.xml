@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="br.com.eucolaborador">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <application
+        android:usesCleartextTraffic="true"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <service
+            android:name=".view.util.FetchAddressIntentService"
+            android:exported="false"/>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.LoginView"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".view.CadastroUsuarioView"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".view.EnderecoView"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".view.ChecklistEnderecoView" />
+        <activity android:name=".view.PessoaView" />
+        <activity android:name=".view.EnfermoView" />
+        <activity android:name=".view.SucessoView"/>
+        <activity android:name=".view.RecuperarSenhaView" />
+        <activity
+            android:name=".view.DenunciaLocalView"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".view.bases.BaseActivity" />
+        <activity android:name=".view.ConfigIPView" />
+        <activity android:name=".view.PrevencoesView"/>
+        <activity android:name=".view.MapaView"/>
+        <activity android:name=".view.InformacoesView"/>
+        <activity android:name=".view.PerfilView"/>
+        <activity android:name=".view.PerfilEditView"/>
+        <activity android:name=".view.AlterarEmailView"/>
+        <activity android:name=".view.AlterarSenhaView"/>
+        <activity android:name=".view.ExcluirView"/>
+    </application>
+
+</manifest>
