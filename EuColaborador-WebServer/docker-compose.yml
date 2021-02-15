@@ -1,0 +1,36 @@
+version: "3.4"
+
+services:
+  eucolaborador-api:
+    container_name: eucolaborador-api-dev
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - BINGAPIKEY=AqO7YKDLNB1eM3sPSCLRSESMTgcgRews5TpROcyYU9_VGtBDQd0tShArh5Q9lTjE
+      - BDCONNECTIONSTRING=Host=postgres;Port=5432;Database=eucolaboradordb;Username=eucolaborador;Password=eucolaborador
+      - WEBURL=http://eucolaborador-web:80
+      - MailServer=smtp.office365.com
+      - MailPort=587
+      - MailSenderName="Eu Colaborador"
+      - MailSender=naoresponsa-euagen-te@outlook.com.br
+      - MailPassword=033744B4-1C8B-4E69-AC8A-660976D859D3
+    ports:
+      - "60633:80"
+
+  eucolaborador-web:
+    container_name: eucolaborador-web-dev
+    image: ${DOCKER_REGISTRY-}web
+    build:
+      context: .
+      dockerfile: Web/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - APIURL=http://eucolaborador-api:80
+      - BINGAPIKEY=AqO7YKDLNB1eM3sPSCLRSESMTgcgRews5TpROcyYU9_VGtBDQd0tShArh5Q9lTjE
+    ports:
+      - "32772:80"

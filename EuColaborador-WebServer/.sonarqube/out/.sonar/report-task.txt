@@ -1,0 +1,6 @@
+projectKey=eucolaborador-api
+serverUrl=http://localhost:9000
+serverVersion=8.2.0.32929
+dashboardUrl=http://localhost:9000/dashboard?id=eucolaborador-api
+ceTaskId=AXGuENyD30jiiS5XOu8y
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AXGuENyD30jiiS5XOu8y
