@@ -31,3 +31,4 @@ services:
 
 volumes:
   pgdata:
+    name: eucolaboradordb
