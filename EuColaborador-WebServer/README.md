@@ -25,7 +25,7 @@ A maneira mais simples de obter uma instância deste servidor em execução é a
 	 # exemplo de saída: docker-compose version 1.27.4, build 40524192
 	 ```
 		
- - **Passo 2**: Se estiver tudo certo, você deve fazer o build da aplicação para a construição de uma imagem com a versão mais recente da aplicação. Se houver novas modificações no código fonte, você deverá repetir esse passo.
+ - **Passo 2**: Se estiver tudo certo, você deve fazer o build da aplicação para a construição de uma imagem com a versão mais recente da aplicação. Para isso copie o código fonte para sua maquina local, abra o console do sistema operacional neste diretório e execute o comando abaixo. Se houver novas modificações no código fonte, você deverá repetir esse passo.
  
 	```bash
 	docker-compose build --no-cache
